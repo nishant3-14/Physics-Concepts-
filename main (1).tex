@@ -1,0 +1,2935 @@
+\documentclass[11pt,openany]{book}
+
+\usepackage[
+    left=2.7cm,
+    right=2.7cm,
+    top=3cm,
+    bottom=3cm,
+    headheight=14pt
+]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!50!black,
+    urlcolor=blue!50!black,
+    citecolor=blue!50!black,
+    pdftitle={Road to Relativity},
+    pdfauthor={Nishant Mathew}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\setlist{itemsep=0.25em, topsep=0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries}
+    {\chaptername\ \thechapter}
+    {20pt}
+    {\Huge}
+
+\titleformat{\section}
+    {\normalfont\Large\bfseries}
+    {\thesection}
+    {0.9em}
+    {}
+
+\titleformat{\subsection}
+    {\normalfont\large\bfseries}
+    {\thesubsection}
+    {0.8em}
+    {}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+
+\tcbset{
+    enhanced,
+    breakable,
+    arc=2mm,
+    boxrule=0.5pt,
+    left=7pt,
+    right=7pt,
+    top=7pt,
+    bottom=7pt
+}
+
+\newtcolorbox{keyidea}{
+    title=\textbf{Key Idea},
+    colback=blue!5,
+    colframe=blue!50!black
+}
+
+\newtcolorbox{definitionbox}{
+    title=\textbf{Definition},
+    colback=green!5,
+    colframe=green!40!black
+}
+
+\newtcolorbox{warningbox}{
+    title=\textbf{Common Mistake},
+    colback=red!5,
+    colframe=red!50!black
+}
+
+\newtcolorbox{examplebox}{
+    title=\textbf{Example},
+    colback=yellow!8,
+    colframe=yellow!40!black
+}
+
+\title{\Huge Down the Rabbit Hole of Physics\\[0.5em]
+\Large A Curious Journey into the Mathematics of Relativity}
+\author{Nishant Mathew}
+\date{April 2026}
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+
+
+\vspace*{0.3\textheight}
+
+\begin{quote}
+\centering
+``Curiouser and curiouser!''
+
+\medskip
+
+--- Lewis Carroll, \textit{Alice's Adventures in Wonderland}
+\end{quote}
+
+\vspace{1cm}
+
+
+
+
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+Mathematics and physics are often taught as collections of formulas, procedures, and 
+abstract definitions to be memorised. Students learn to manipulate symbols long before 
+they are shown what those symbols mean geometrically or physically. As a result, ideas 
+that are often simple at their core can begin to feel mysterious.
+
+\medskip
+
+This book approaches these ideas differently.
+
+\medskip
+
+Like Alice following the rabbit down the rabbit hole, the reader is invited to begin with 
+something familiar and simple, only to discover that it leads into a much deeper world. 
+A vector is not merely an arrow or a list of numbers. Coordinates are not reality itself. 
+A matrix is not just an array of entries. Beneath these familiar objects lies a geometric 
+language for describing motion, space, measurement, and eventually spacetime.
+
+\medskip
+
+The goal of this text is not merely to teach linear algebra, tensors, or relativity as 
+computational subjects, but to build an intuitive geometric understanding of the structures 
+behind them. We will return often to simple pictures --- walking on a hill, changing 
+coordinate systems, stretching space, measuring directions --- and use them to uncover 
+the mathematics beneath.
+
+\medskip
+
+The philosophy of this book is that mathematics should arise naturally from geometry. 
+Rather than beginning with formal definitions and adding interpretation later, we will 
+often begin with intuition and then formalise it carefully.
+
+\medskip
+
+A recurring theme is the distinction between an object and its description. A vector is 
+not its coordinates. A transformation is not the matrix used to represent it. A geometric 
+or physical statement should not depend on the coordinate system chosen to describe it. 
+This idea leads naturally toward vectors, covectors, tensors, metrics, and eventually 
+spacetime itself.
+
+\medskip
+
+This text grew out of personal study in linear algebra, geometry, and relativity, and 
+from a desire to understand these subjects conceptually rather than purely computationally. 
+Many of the explanations arose from asking a simple question:
+
+\begin{quote}
+What do these mathematical objects actually \textit{mean} geometrically?
+\end{quote}
+
+\medskip
+
+
+
+\medskip
+
+This book is an invitation to follow that rabbit hole slowly --- curious, patient, and 
+willing to let familiar ideas become strange before they become clear.
+
+\tableofcontents
+
+\mainmatter
+
+\part{Geometry and Motion}
+
+
+
+\vspace*{0.35\textheight}
+
+\begin{quote}
+\centering
+``Would you tell me, please, which way I ought to go from here?''
+
+\medskip
+
+``That depends a good deal on where you want to get to,'' said the Cat.
+
+\medskip
+
+--- Lewis Carroll, \textit{Alice's Adventures in Wonderland}
+\end{quote}
+
+
+Alice's journey begins with a question of direction. In Wonderland, paths are strange, 
+size is uncertain, and familiar things no longer behave in familiar ways. To move through 
+such a world, Alice must first learn how to understand where she is, where she is going, 
+and what it means to change perspective.
+
+\medskip
+
+This part of the book begins in the same spirit. We start with motion from one place to 
+another, and from this simple idea build the language of vectors, coordinates, bases, 
+linear transformations, and change of basis.
+
+\medskip
+
+The central theme is the distinction between an object and its description. A vector is 
+not its coordinates. A transformation is not merely its matrix. When we change our basis, 
+the numbers may change, but the geometric object remains the same.
+
+\medskip
+
+This is the first step down the rabbit hole: from ordinary motion to the geometry beneath 
+physics.
+
+
+\chapter{Vectors and Coordinates}
+
+\section{What Is a Vector Really?}
+
+Suppose you are running up a hill. You start at the bottom, at Point A, and end somewhere in the middle of the hill, at Point B. We can represent the overall change in position with a diagram.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+  \draw[thick] (-6,0) -- (0,4) -- (0,0) -- (-6,0);
+  \draw[->, red, very thick] (-6,0) -- (-3,2) node[right] {$\vec{v}$};
+  \fill (-6,0) circle (1.5pt) node[left]{A};
+  \fill (-3,2) circle (1.5pt) node[above=2pt]{B};
+\end{tikzpicture}
+\caption{Vector $\vec{v}$ from point A to B.}
+\label{fig:vector_diagram}
+\end{figure}
+
+\textit{It is important to note that the arrow does not represent the exact path taken by the runner. The runner may have taken a curved or uneven route. }
+
+\medskip
+
+The vector only captures the overall change from A to B, ignoring the details of the journey.
+
+\medskip
+
+A vector is often described as an object that has magnitude and direction. That is, it tells us how far something goes, and in what direction.
+
+\medskip
+
+Now consider the red arrow in the diagram. It points from A to B, and it clearly has a certain length. 
+So it seems to fit this description. But there is something subtle going on. The diagram does not tell us what we mean by directions such as left, right, up, or down in any precise way. 
+It also does not tell us how to measure length. We have not said what counts as one unit of distance.
+
+\medskip
+
+Does this mean the red object is not a vector? No.
+
+\medskip
+
+The vector is still there. It represents the displacement from A to B. It tells us how to move from the starting point to the ending point. What is missing is not the vector itself, but a way of describing it using numbers.
+
+\medskip
+
+If we decide how to measure distances, and if we agree on how to describe directions, 
+then we can assign numbers to this vector. We could then say exactly how long it is, 
+and describe its direction more precisely.
+
+\medskip
+
+So the vector itself does not depend on these choices, but any numerical description of it does.
+
+\medskip
+
+This raises an important question: how do we actually describe a vector using numbers?
+
+\medskip
+
+To do that, we will need to introduce a way of measuring lengths and describing directions more precisely.
+
+\section{Describing Direction and Length}
+
+In the previous section, we saw that a vector represents a displacement from one point to another. 
+It tells us how to move, but we have not yet said how to describe that movement using numbers.
+
+\medskip
+
+If we want to be more precise, we need two things:
+
+\begin{enumerate}
+  \item a way to measure distance,
+  \item a way to describe direction.
+\end{enumerate}
+
+\medskip
+
+Let us start with distance. We shall introduce a grid to our previous diagram.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8]
+
+  \draw[step=1cm, gray!30, thin] (-7,-1) grid (2,5);
+
+  \draw[->, thick] (-7,0) -- (2.5,0) node[right] {$x$};
+  \draw[->, thick] (0,-1) -- (0,5.5) node[above] {$y$};
+
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw (\x,0.1) -- (\x,-0.1) node[below] {\small $\x$};
+
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
+
+  \draw[thick] (-6,0) -- (0,4) -- (0,0) -- (-6,0);
+
+  \draw[->, red, very thick] (-6,0) -- (-3,2) node[right] {$\vec{v}$};
+
+  \fill (-6,0) circle (1.5pt) node[below left]{A};
+  \fill (-3,2) circle (1.5pt) node[above right]{B};
+
+\end{tikzpicture}
+\caption{Vector $\vec{v}$ from point A to B, shown on a grid with axes for measurement.}
+\end{figure}
+
+Now that we have introduced a grid into the diagram, we can use it as a tool for measurement. 
+Each square in the grid can be thought of as representing one unit of length.
+
+\medskip
+
+With this in place, we no longer need to guess how long the vector is. 
+We can estimate its length by counting how many units it covers.
+
+\medskip
+
+Now we turn to direction. The grid also helps us compare directions in a consistent way. 
+The horizontal lines of the grid give us a natural notion of left and right, while the vertical lines give us a notion of up and down.
+
+\medskip
+
+These directions do not come from the vector itself; they are choices that we make in order to describe motion more precisely.
+
+\medskip
+
+Once these reference directions are fixed, we can describe any vector by saying how much it moves in each of these two directions.
+
+\medskip
+
+In other words, instead of thinking of the vector as a single arrow, we can think of it as being built from two simpler motions:
+one along the horizontal direction, and one along the vertical direction.
+
+\medskip
+
+Using the grid, we can now read off these motions directly. 
+We can see how far the vector moves horizontally, and how far it moves vertically.
+
+\medskip
+
+This allows us to assign numbers to the vector. These numbers tell us how much of each basic direction is needed to reconstruct the original arrow.
+
+\medskip
+
+Thus, while the vector itself is a geometric object, our description of it depends on the choices we make for measuring distance and describing direction.
+
+\medskip
+
+From the grid, we can read off that the vector moves 3 units in the horizontal direction and 2 units in the vertical direction.
+
+\medskip
+
+This raises an important question: why were we able to describe the vector in this way?
+
+\medskip
+
+The reason is that we have chosen two special directions in the plane: one horizontal and one vertical. 
+These directions act as our fundamental building blocks. By combining them, we are able to describe any displacement in the plane.
+
+% (rest of document continues exactly in same cleaned style...)
+
+\section{Basis and Vector Spaces}
+
+The two directions we chose, horizontal and vertical, play a special role. 
+They allow us to describe every vector in the plane by breaking it into simpler pieces.
+
+We call such a collection of directions a \textbf{basis}.
+
+
+Very simply, a \textbf{basis} is a set of directions with the property that every vector can be built by combining them in suitable amounts.
+
+
+\subsection{A Precise Definition of a Basis}
+
+So far, we have been using the horizontal and vertical directions as our basic building blocks. 
+We saw that by combining these directions, we were able to construct the vector $\vec{v}$.
+
+We now want to make this idea precise.
+
+To do this, we introduce the notion of a \textbf{vector space}. 
+A vector space is a collection of objects, called vectors, together with two operations:
+
+\begin{enumerate}
+  \item vector addition, which combines two vectors to form another vector, and
+  \item scalar multiplication, which scales a vector by a number.
+\end{enumerate}
+
+These operations satisfy certain properties (such as associativity, distributivity, and the existence of a zero vector), 
+which ensure that vectors behave in a consistent algebraic way.
+
+\medskip
+
+Within a vector space, we are interested in describing vectors in terms of simpler building blocks.
+
+\subsection{Linear Combinations}
+
+Given vectors $\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_n$, 
+we can form a new vector $\vec{w}$ by taking a linear combination:
+
+\[
+\vec{w} = a_1 \mathbf{v}_1 + a_2 \mathbf{v}_2 + \cdots + a_n \mathbf{v}_n,
+\]
+
+where $a_1, a_2, \dots, a_n$ are real numbers.
+
+This represents combining the vectors by scaling each one and then adding the results.
+
+\medskip
+
+\subsection{Spanning}
+
+A collection of vectors $\{\mathbf{v}_1, \dots, \mathbf{v}_n\}$ is said to \textbf{span} the vector space 
+if every vector in the space can be written as a linear combination of them.
+
+In other words, these vectors are sufficient to build every vector in the space.
+
+\medskip
+
+\subsection{Linear Independence}
+
+However, not all spanning sets are equally useful. 
+We would like our building blocks to be as efficient as possible.
+
+A set of vectors $\{\mathbf{v}_1, \dots, \mathbf{v}_n\}$ is said to be \textbf{linearly independent} 
+if the only way to write
+
+\[
+a_1 \mathbf{v}_1 + a_2 \mathbf{v}_2 + \cdots + a_n \mathbf{v}_n = \mathbf{0}
+\]
+
+is by taking
+
+\[
+a_1 = a_2 = \cdots = a_n = 0.
+\]
+
+This means that none of the vectors can be built from the others. 
+Each one contributes something genuinely new.
+
+\medskip
+
+\subsection{Definition of a Basis}
+
+We are now ready to define a basis.
+
+A set of vectors $\{\mathbf{v}_1, \dots, \mathbf{v}_n\}$ is called a \textbf{basis} of a vector space if:
+
+\begin{enumerate}
+  \item it spans the space, and
+  \item it is linearly independent.
+\end{enumerate}
+
+\medskip
+
+This means that a basis is a minimal set of building blocks from which every vector in the space can be constructed.
+
+\medskip
+
+\subsection{Connection to Our Example}
+
+In our diagram, the horizontal direction $\mathbf{e}_1$ and the vertical direction $\mathbf{e}_2$ form a basis of the plane.
+
+Every vector can be written uniquely as a combination of these two directions. 
+For example,
+
+\[
+\vec{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2.
+\]
+
+The numbers $(3,2)$ are called the \textbf{components} of the vector with respect to this basis.
+These components depend on the choice of basis, even though the vector itself does not.
+\medskip
+
+It is important to note that the choice of basis is not unique. 
+We could have chosen a different pair of directions, and we would still be able to describe every vector in the plane. 
+However, the numerical components of the vector would then change accordingly.
+
+
+\subsection{The Hill Example Revisited}
+
+We now return to our hill example and reinterpret it using the language of vector spaces and bases.
+
+\medskip
+ 
+\textbf{What is the vector space here?}
+
+In this example, we are working in the plane of the diagram. 
+The vectors we are considering are all possible displacements that can be drawn on this plane.
+
+That is, starting from any point, we can imagine moving in any direction and by any amount. 
+All such displacements form our vector space.
+
+This space is two-dimensional, since two independent directions are sufficient to describe any motion within it.
+
+\medskip
+
+\subsection{The Basis in This Example}
+
+When we introduced the grid, we implicitly chose two special directions:
+
+\begin{itemize}
+  \item the horizontal direction (along the $x$-axis), and
+  \item the vertical direction (along the $y$-axis).
+\end{itemize}
+
+We denote these directions by $\mathbf{e}_1$ and $\mathbf{e}_2$, respectively.
+
+These two vectors form a basis of the plane. 
+They are linearly independent, and together they span all possible directions in the diagram.
+
+\medskip
+
+\subsection{Writing the Vector in This Basis}
+
+Now consider the vector $\vec{v}$ from point A to point B.
+
+From the grid, we can see that:
+
+\begin{itemize}
+  \item the vector moves 3 units in the horizontal direction, and
+  \item the vector moves 2 units in the vertical direction.
+\end{itemize}
+
+This means that $\vec{v}$ can be written as a linear combination of the basis vectors:
+
+\[
+\vec{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2.
+\]
+
+This expression tells us exactly how to reconstruct the vector:
+we take 3 copies of the horizontal direction and 2 copies of the vertical direction, and add them together.
+
+\medskip
+
+\subsection{A Deeper Observation}
+
+It is important to note that the vector $\vec{v}$ itself is not the pair of numbers $(3,2)$.
+
+Rather, $(3,2)$ is the description of the vector with respect to the chosen basis $\{\mathbf{e}_1, \mathbf{e}_2\}$.
+
+If we had chosen a different pair of directions as our basis, the same vector would be described by a different pair of numbers.
+
+\medskip
+
+Thus, the vector is a geometric object, while its components depend on the basis used to describe it.
+
+
+\section{Changing the Basis}
+
+So far, we have described vectors using the horizontal and vertical directions as our basis. 
+This allowed us to write the vector $\vec{v}$ as
+
+\[
+\vec{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2.
+\]
+
+However, there is nothing special about these particular directions. 
+We are free to choose a different set of directions, as long as they are linearly independent and span the space.
+
+\subsection{A New Choice of Basis}
+
+Suppose instead of choosing purely horizontal and vertical directions, 
+we choose directions that are tilted along the hill.
+
+For example, let us define:
+
+\begin{itemize}
+  \item $\mathbf{u}_1$ as a direction pointing up along the slope of the hill,
+  \item $\mathbf{u}_2$ as another direction that is not parallel to $\mathbf{u}_1$.
+\end{itemize}
+
+As long as these two directions are not multiples of each other, they will still form a basis of the plane.
+
+\medskip
+
+\subsection{Describing the Same Vector}
+
+Now we try to describe the same vector $\vec{v}$ using this new basis $\{\mathbf{u}_1, \mathbf{u}_2\}$.
+
+Instead of moving purely horizontally and then vertically, 
+we now think of the vector as being built from motions along these new directions.
+
+This means we can write
+
+\[
+\vec{v} = a\,\mathbf{u}_1 + b\,\mathbf{u}_2
+\]
+
+for some numbers $a$ and $b$.
+
+\medskip
+
+\subsection{What Has Changed?}
+
+The vector $\vec{v}$ has not changed. 
+It still represents the same displacement from A to B.
+
+What has changed is only the way we describe it.
+
+Previously, we said the vector was made of 3 units in the horizontal direction and 2 units in the vertical direction.
+
+Now, we describe it in terms of how much it moves along $\mathbf{u}_1$ and $\mathbf{u}_2$.
+
+So the numbers $(3,2)$ will generally be replaced by a different pair of numbers $(a,b)$.
+
+\medskip
+
+\subsection{A Key Insight}
+
+This leads to an important conclusion:
+
+\begin{itemize}
+  \item The vector itself is independent of the basis.
+  \item The components of the vector depend on the basis.
+\end{itemize}
+
+Thus, changing the basis changes the numerical description of the vector, 
+but not the geometric object itself.
+
+
+\subsection{A Concrete Example}
+
+Let us choose a new basis:
+
+$\mathbf{u}_1$ and $\mathbf{u}_2$
+
+
+We now try to express $\vec{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2$ in terms of $\mathbf{u}_1$ and $\mathbf{u}_2$.
+
+
+\begin{figure}[H]
+ \centering
+ \begin{tikzpicture}[scale=0.9]
+
+   % Grid
+   \draw[step=1cm, gray!30, thin] (-7,-1) grid (3,5);
+
+   % Axes
+   \draw[->, thick] (-7,0) -- (3.5,0) node[right] {$x$};
+   \draw[->, thick] (0,-1) -- (0,5.5) node[above] {$y$};
+
+   % Tick marks and labels on x-axis
+   \foreach \x in {-6,-5,-4,-3,-2,-1,1,2,3}
+     \draw (\x,0.1) -- (\x,-0.1) node[below] {\small $\x$};
+
+   % Tick marks and labels on y-axis
+   \foreach \y in {1,2,3,4,5}
+     \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
+
+   % Hill
+   \draw[thick] (-6,0) -- (0,4) -- (0,0) -- (-6,0);
+
+   % Points
+   \fill (-6,0) circle (1.5pt) node[below left] {$A$};
+   \fill (-3,2) circle (1.5pt) node[above right] {$B$};
+
+   % Vector v
+   \draw[->, red, very thick] (-6,0) -- (-3,2) node[above] {$\vec{v}$};
+
+   % Standard basis vectors from A
+   \draw[->, violet, thick] (-6,0) -- (-5,0) node[below] {$\mathbf e_1$};
+   \draw[->, violet, thick] (-6,0) -- (-6,1) node[left] {$\mathbf e_2$};
+
+   % Rotated basis vectors from A (45 degrees anticlockwise)
+   \draw[->, blue, thick] (-6,0) -- (-5.2928932188134,0.7071067811865) node[above right] {$\mathbf u_1$};
+   \draw[->, blue!60!black, thick] (-6,0) -- (-6-0.7071,0+0.7071) node[above left] {$\mathbf u_2$};
+
+ \end{tikzpicture}
+ \caption{The vector $\vec{v}$ together with the standard basis $\{\mathbf e_1,\mathbf e_2\}$ and the rotated basis $\{\mathbf{u}_1, \mathbf{u}_2\}$ obtained by rotating the standard basis anticlockwise by $45^\circ$.}
+ \label{fig:rotated_basis}
+\end{figure}
+
+Since the new basis vectors are obtained by rotating the standard basis by $45^\circ$, we have
+
+\[
+\mathbf{u}_1 = \frac{1}{\sqrt{2}}(\mathbf{e}_1 + \mathbf{e}_2),
+\qquad
+\mathbf{u}_2 = \frac{1}{\sqrt{2}}(-\mathbf{e}_1 + \mathbf{e}_2).
+\]
+
+We now solve for $\mathbf{e}_1$ and $\mathbf{e}_2$ in terms of $\mathbf{u}_1$ and $\mathbf{u}_2$.
+
+Adding the two equations:
+
+\[
+\mathbf{u}_1 + \mathbf{u}_2 = \frac{1}{\sqrt{2}}(2\mathbf{e}_2),
+\]
+
+so
+
+\[
+\mathbf{e}_2 = \frac{1}{\sqrt{2}}(\mathbf{u}_1 + \mathbf{u}_2).
+\]
+
+Subtracting the second equation from the first:
+
+\[
+\mathbf{u}_1 - \mathbf{u}_2 = \frac{1}{\sqrt{2}}(2\mathbf{e}_1),
+\]
+
+so
+
+\[
+\mathbf{e}_1 = \frac{1}{\sqrt{2}}(\mathbf{u}_1 - \mathbf{u}_2).
+\]
+
+Now substitute into $\vec{v} = 3\mathbf{e}_1 + 2\mathbf{e}_2$:
+
+\[
+\vec{v} = 3\left(\frac{1}{\sqrt{2}}(\mathbf{u}_1 - \mathbf{u}_2)\right)
++ 2\left(\frac{1}{\sqrt{2}}(\mathbf{u}_1 + \mathbf{u}_2)\right).
+\]
+
+Factor out $\frac{1}{\sqrt{2}}$:
+
+\[
+\vec{v} = \frac{1}{\sqrt{2}} \left[ 3(\mathbf{u}_1 - \mathbf{u}_2) + 2(\mathbf{u}_1 + \mathbf{u}_2) \right].
+\]
+
+Expand:
+
+\[
+\vec{v} = \frac{1}{\sqrt{2}} \left( 3\mathbf{u}_1 - 3\mathbf{u}_2 + 2\mathbf{u}_1 + 2\mathbf{u}_2 \right).
+\]
+
+Simplify:
+
+\[
+\vec{v} = \frac{1}{\sqrt{2}} \left( 5\mathbf{u}_1 - \mathbf{u}_2 \right).
+\]
+
+Thus, in the rotated basis, the vector is
+
+\[
+\vec{v} = \frac{5}{\sqrt{2}}\,\mathbf{u}_1 - \frac{1}{\sqrt{2}}\,\mathbf{u}_2.
+\]
+
+This shows that the same vector can have different numerical descriptions depending on the basis used. 
+The components are not intrinsic to the vector; they arise from our choice of basis.
+
+\chapter{Linear Transformations}
+
+\section{What Is \texorpdfstring{$\mathbb{R}^n$}{R to the n}?}
+
+Before defining a linear transformation, we need to clarify the space we are working in.
+
+\medskip
+
+So far, we have been working on the hill, which lives in a two-dimensional world. 
+To describe a point on the hill, we used two numbers: one for horizontal position 
+and one for vertical height. This is what we call $\mathbb{R}^2$.
+
+\medskip
+
+More generally, $\mathbb{R}^n$ is a space where every point is described using $n$ 
+numbers. Each number tells you how far you move in one independent direction.
+
+\medskip
+
+\begin{itemize}
+  \item In $\mathbb{R}^2$, we need two numbers (like $x$ and $y$) to locate a point on the hill.
+  \item In $\mathbb{R}^3$, we need three numbers (for example, left-right, forward-backward, and up-down).
+  \item In $\mathbb{R}^n$, we imagine $n$ independent directions, and each vector tells us how far to move along each one.
+\end{itemize}
+
+\medskip
+
+Even though we cannot easily picture higher dimensions, the idea is the same: 
+a vector in $\mathbb{R}^n$ is simply a direction and displacement described using $n$ independent measurements.
+
+\medskip
+
+In this chapter, we will continue to use the hill (which lies in $\mathbb{R}^2$) 
+for intuition, but everything we say applies equally well in any dimension.
+
+\section{Changing Vectors Themselves}
+
+So far, we have been changing the way we \textit{look} at vectors by choosing different bases. 
+The vectors themselves remained the same, but the numbers used to describe them changed.
+Before now, we have focused on describing vectors: choosing a basis, assigning coordinates, 
+and understanding how those coordinates change when we change our point of view.
+
+\medskip
+
+But in many situations, the vectors themselves are not fixed. The space we are working in 
+can change.
+
+\medskip
+
+For example, imagine the hill is made of a flexible material. If the ground stretches 
+in the horizontal direction and compresses in the vertical direction, then every point 
+on the hill moves. A path that once went from $A$ to $B$ is no longer the same path --- 
+it has been deformed along with the hill.
+
+\medskip
+
+In this situation, we are not simply describing the same vector differently. 
+The vector itself has changed.
+
+\medskip
+
+
+
+We now ask a different question: \textbf{\textit{What if we change the vectors themselves?}}
+
+
+\medskip
+
+A \textbf{linear transformation} is a function $T: \mathbb{R}^n \to \mathbb{R}^n$ that maps vectors 
+to new vectors, while preserving two essential properties:
+
+\begin{itemize}
+  \item \textbf{Additivity:} $T(\vec{u} + \vec{v}) = T(\vec{u}) + T(\vec{v})$
+  \item \textbf{Scalar homogeneity:} $T(c\vec{v}) = cT(\vec{v})$
+\end{itemize}
+
+Geometrically, this means: \textit{lines stay lines, the origin stays fixed, and the grid 
+remains evenly spaced} --- it may be stretched, rotated, sheared, or reflected, but it 
+never bends or curves.
+
+% ---------------------------------------------------------
+\section{Matrices as Representations of Transformations}
+% ---------------------------------------------------------
+
+This raises a natural question: how do we describe such a transformation using numbers?
+
+\medskip
+
+We already know that any vector can be written in terms of a basis. For example,
+
+\[
+\vec{v} = x\mathbf{e}_1 + y\mathbf{e}_2.
+\]
+
+If we apply a linear transformation $T$ to this vector, the two linearity properties give
+
+\[
+T(\vec{v}) = T(x\mathbf{e}_1 + y\mathbf{e}_2) = x\,T(\mathbf{e}_1) + y\,T(\mathbf{e}_2).
+\]
+
+This is the key idea: \textit{to understand $T$ on every vector, it is enough to know 
+what it does to the basis vectors.}
+
+\medskip
+
+Let us write the transformed basis vectors in coordinates:
+
+\[
+T(\mathbf{e}_1) = \begin{bmatrix} a \\ c \end{bmatrix}, 
+\qquad
+T(\mathbf{e}_2) = \begin{bmatrix} b \\ d \end{bmatrix}.
+\]
+
+Now consider an arbitrary vector $\vec{v} = \begin{bmatrix} x \\ y \end{bmatrix}$. 
+Using the expression above,
+
+\[
+T(\vec{v}) = x \begin{bmatrix} a \\ c \end{bmatrix} + y \begin{bmatrix} b \\ d \end{bmatrix}
+=
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}.
+\]
+
+The matrix
+
+\[
+M =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\]
+
+is called the \textbf{matrix representation} of the transformation $T$. Each column encodes 
+where a basis vector is sent:
+
+In simple terms, this means the following.
+
+\medskip
+
+Take the first basis vector $\mathbf{e}_1 = \begin{bmatrix}1 \\ 0\end{bmatrix}$. 
+Apply the transformation $T$ to it. The result is the first column of the matrix:
+
+\[
+T(\mathbf{e}_1) = \begin{bmatrix} a \\ c \end{bmatrix}.
+\]
+
+\medskip
+
+Similarly, take the second basis vector $\mathbf{e}_2 = \begin{bmatrix}0 \\ 1\end{bmatrix}$. 
+Applying $T$ gives the second column:
+
+\[
+T(\mathbf{e}_2) = \begin{bmatrix} b \\ d \end{bmatrix}.
+\]
+
+\medskip
+
+So each column of the matrix simply tells us what happens to one of the basic directions 
+of the space. Once we know how these basic directions move, we can determine how 
+\textit{every} vector moves.
+
+\begin{itemize}
+  \item The \textbf{first column} is $T(\mathbf{e}_1)$.
+  \item The \textbf{second column} is $T(\mathbf{e}_2)$.
+\end{itemize}
+
+A matrix is therefore not merely a collection of numbers --- it is a compact encoding of 
+how a transformation acts on the entire space.
+
+% ---------------------------------------------------------
+\section{A Worked Example}
+% ---------------------------------------------------------
+
+Consider a transformation $T$ that stretches space horizontally by a factor of $1.4$ and 
+compresses it vertically by a factor of $0.7$. To find its matrix, we apply $T$ to each 
+standard basis vector:
+
+\begin{itemize}
+  \item $\mathbf{e}_1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$ points entirely in the 
+  horizontal direction, so it is stretched to 
+  $T(\mathbf{e}_1) = \begin{bmatrix} 1.4 \\ 0 \end{bmatrix}$.
+  \item $\mathbf{e}_2 = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$ points entirely in the 
+  vertical direction, so it is compressed to 
+  $T(\mathbf{e}_2) = \begin{bmatrix} 0 \\ 0.7 \end{bmatrix}$.
+\end{itemize}
+
+Placing these as columns gives the matrix that completely describes $T$:
+
+\[
+M = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix}.
+\]
+
+We can now apply this to any vector. Consider the point $A = (-6, 0)$ and the point 
+$B = (-3, 2)$, connected by a vector $\vec{v}$.
+Applying $T$ gives:
+
+\[
+T(A) = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix} \begin{bmatrix} -6 \\ 0 \end{bmatrix} 
+= \begin{bmatrix} -8.4 \\ 0 \end{bmatrix}, 
+\qquad
+T(B) = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix} \begin{bmatrix} -3 \\ 2 \end{bmatrix} 
+= \begin{bmatrix} -4.2 \\ 1.4 \end{bmatrix}.
+\]
+
+These are the \textbf{absolute coordinates} of the transformed points --- that is, where 
+$A$ and $B$ end up when measured against the \textit{original}, undeformed coordinate system.
+
+\medskip
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[scale=0.8]
+
+% =========================
+% LEFT: Original figure
+% =========================
+\begin{scope}
+  \node at (-2.5, 6.2) {\textbf{Original}};
+  \draw[step=1cm, gray!30, thin] (-7,-1) grid (2,5);
+  \draw[->, thick] (-7.2,0) -- (2.5,0) node[right] {$x$};
+  \draw[->, thick] (0,-1.2) -- (0,5.5) node[above] {$y$};
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw (\x,0.1) -- (\x,-0.1) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.1,\y) -- (-0.1,\y) node[left] {\small $\y$};
+  \draw[thick] (-6,0) -- (0,4) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-6,0) -- (-3,2) node[above right] {$\vec{v}$};
+  \fill (-6,0) circle (1.5pt) node[above left] {$A(-6,0)$};
+  \fill (-3,2) circle (1.5pt) node[below right] {$B(-3,2)$};
+\end{scope}
+
+% =========================
+% Arrow + label between figures
+% =========================
+\node at (3.2, 2.5) {$T$};
+\draw[->, thick] (2.2, 2.2) -- (4.2, 2.2);
+
+% =========================
+% RIGHT: Transformed figure
+% T = [[1.4, 0], [0, 0.7]]
+% (-6,0) -> (-8.4, 0)
+% (-3,2) -> (-4.2, 1.4)
+% (0,4)  -> (0,  2.8)
+% (0,0)  -> (0,  0)
+% =========================
+\begin{scope}[xshift=14cm]
+  \node at (-2.5, 6.2) {\textbf{After $T$: stretch $x$ by 1.4, squeeze $y$ by 0.7}};
+  \foreach \x in {-7,-6,-5,-4,-3,-2,-1,0,1,2}
+    \draw[gray!30, thin] ({1.4*\x}, {0.7*(-1)}) -- ({1.4*\x}, {0.7*5});
+  \foreach \y in {-1,0,1,2,3,4,5}
+    \draw[gray!30, thin] ({1.4*(-7)}, {0.7*\y}) -- ({1.4*2}, {0.7*\y});
+  \draw[->, thick] ({1.4*(-7)-0.2}, 0) -- ({1.4*2+0.5}, 0) node[right] {$x'$};
+  \draw[->, thick] (0, {0.7*(-1)-0.2}) -- (0, {0.7*5+0.5}) node[above] {$y'$};
+  \foreach \x in {-7,-6,-5,-4,-3,-2,-1,1,2}
+    \draw ({1.4*\x}, 0.1) -- ({1.4*\x}, -0.1) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.1, {0.7*\y}) -- (-0.1, {0.7*\y}) node[left] {\small $\y$};
+  \draw[thick] (-8.4,0) -- (0,2.8) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-8.4,0) -- (-4.2,1.4) node[above right] {$T(\vec{v})$};
+  \fill (-8.4,0) circle (1.5pt) node[above left] {$T(A)(-8.4,\,0)$};
+  \fill (-4.2,1.4) circle (1.5pt) node[below right] {$T(B)(-4.2,\,1.4)$};
+\end{scope}
+
+\node at (7, -1.8) {$T = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix}$};
+
+\end{tikzpicture}%
+}
+\caption{A linear transformation $T$ that stretches space horizontally by 1.4 and compresses 
+it vertically by 0.7. The triangle and vector transform consistently --- grid lines, shape, 
+and vector all obey the same mapping.}
+\label{fig:linear_transform}
+\end{figure}
+
+% ---------------------------------------------------------
+\section{The Two Ways to Read the Transformed Grid}
+% ---------------------------------------------------------
+
+After applying $T$, we are looking at the same geometric picture, but we can read it in two different ways.
+
+\medskip
+
+Now you apply a linear transformation to the grid.
+
+\medskip
+
+\textbf{Reading 1: Using the original grid.}
+
+\medskip
+
+In this interpretation, we are measuring everything using the original grid.
+
+\medskip
+
+The transformation $T$ physically moves every point. In particular,
+
+\[
+A = (-6, 0) \quad \longrightarrow \quad T(A) = (-8.4, 0).
+\]
+
+\medskip
+
+So relative to the original grid, point $A$ has clearly moved further to the left.
+
+\medskip
+
+\textbf{Reading 2: Using the transformed grid.}
+
+\medskip
+
+In this interpretation, we imagine that the grid itself has been stretched by the transformation. 
+We now use this new grid.
+
+\medskip
+
+When we measure $T(A)$ using this stretched grid, we find that it still lines up with the 
+same tick mark as before. So we describe it as
+
+\[
+(-6, 0).
+\]
+
+\medskip
+
+\textbf{Key idea.} The point has moved, but the grid has also changed. Because both changed 
+in the same way, the coordinates appear unchanged.
+
+\medskip
+
+\begin{center}
+\begin{tabular}{l@{\hspace{2cm}}c}
+\toprule
+& \textbf{Coordinates} \\
+\midrule
+$A$ in the original grid        & $(-6,\ 0)$ \\
+$T(A)$ in the original grid      & $(-8.4,\ 0)$ \\
+$T(A)$ measured using the new grid   & $(-6,\ 0)$ \quad \textit{--- looks the same!} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+\textbf{Why this looks confusing.} In the transformed picture, the spacing of the grid has changed. 
+The distance between $0$ and $1$ on the $x$-axis is now larger than before. 
+
+\medskip
+
+So even though $T(A)$ sits on the ``$-6$'' tick mark in the new grid, that tick mark is physically 
+farther away than it was in the original grid.
+
+\medskip
+
+\subsection{Analogy: Floor Tiles}
+
+To understand the two readings, imagine the floor of a room covered with square tiles. 
+Each tile represents one unit of distance, and we describe positions by counting how many tiles we move.
+
+\medskip
+
+Suppose a point is located 6 tiles to the left of the origin. We describe it as $(-6, 0)$.
+
+\medskip
+
+Now imagine that the floor is stretched in the horizontal direction so that each tile becomes wider. 
+The pattern of tiles remains, but the spacing between them increases.
+
+\medskip
+
+There are now two ways to describe the position of the same point:
+
+\begin{itemize}
+  \item If we measure using the original floor (before stretching), the point is now farther away. 
+  It lies at $(-8.4, 0)$.
+
+  \item If we measure using the stretched tiles, the point still sits on the 6th tile. 
+  So we describe it as $(-6, 0)$.
+\end{itemize}
+
+\medskip
+
+\textbf{Key idea.} The point has not changed relative to the tile it sits on, but the tiles themselves 
+have changed size. Because of this, the same point can have different numerical descriptions.
+
+\medskip
+
+This is exactly what happens in our transformed grid:
+
+\begin{itemize}
+  \item The original grid corresponds to the original tiling.
+  \item The transformed grid corresponds to the stretched tiling.
+\end{itemize}
+
+Both describe the same geometric situation, but they assign different coordinates because 
+they use different grids.
+
+\medskip
+
+The diagram shows the \textbf{active transformation} interpretation --- the whole space 
+stretches, and $T(A) = (-8.4, 0)$ tells you where $A$ lands in the original, undeformed 
+coordinate system. The stretched grid is a visual aid to show \textit{how} space deformed, 
+but the labels $T(A)$ and $T(B)$ are always reported back in the original coordinate language. 
+This is why linear transformations are powerful: they tell you exactly where every point 
+ends up in absolute terms, even as the grid itself warps.
+
+% ---------------------------------------------------------
+\section{Linear Transformations vs.\ Change of Basis}
+% ---------------------------------------------------------
+
+It is natural to ask: if rotating the grid $90^\circ$ via a linear transform produces the 
+same numbers as tilting your head $90^\circ$ (a change of basis), are they not doing the 
+same thing?
+
+\medskip
+
+The answer is that the \textit{numerical result} can be identical, but the interpretation 
+is fundamentally different. For orthogonal transformations such as rotations, the active 
+and passive interpretations are mathematically equivalent --- same matrix, same numbers, 
+two different stories. This is in fact the standard way physicists think about it, and they 
+have a name for it: the \textbf{active} versus \textbf{passive} interpretation of a 
+transformation.
+
+\medskip
+
+The difference becomes visible the moment there is anything \textbf{else} on the table. 
+\subsection{Analogy: The Table and Your Head}
+
+To understand the two viewpoints, it helps to think of a simple analogy.
+
+\medskip
+
+Imagine there is a table in a room, and on the table lies a pen pointing toward the door. Let's say the direction the pen is pointing in is your y-direction.
+You are standing in the room looking at the table.
+
+\medskip
+
+Now consider two different situations.
+
+\medskip
+
+\textbf{Scenario 1: The table moves.}
+
+\begin{itemize}
+  \item The table is physically rotated.
+  \item The pen rotates along with the table.
+  \item The pen is now not pointing at the door. Instead it is pointing at the window in the room let's say.
+\end{itemize}
+
+You will notice that the door is still in your y-direction, but the pen no longer points in that direction and hence no longer toward the door.
+
+This is like a \textbf{linear transformation}: the vector itself is changing.
+
+\medskip
+
+\textbf{Scenario 2: You tilt your head.}
+
+\begin{itemize}
+  \item The table does not move at all.
+  \item The pen still points toward the door.
+  \item But because your viewpoint has changed, the pen appears to point in a different direction relative to your frame of reference.
+\end{itemize}
+
+Interestingly, from the perspective of the room, nothing has changed. 
+The table is still in the same position, and the pen is still pointing toward the door.
+
+\medskip
+
+However, from your point of view, things appear different. 
+Because you have tilted your head, the pen no longer aligns with the directions you are using. 
+What once pointed along your y-direction now appears to point in a different direction.
+
+\medskip
+
+Yet, you still agree that the pen is pointing toward the door. 
+To make sense of this, you must also recognise that the position of the door in your description has changed. 
+In your new way of measuring directions, the door is no longer located at the same coordinates as before.
+
+\medskip
+
+In other words, nothing in the room has changed --- only the way you are describing it has.
+
+This is like a \textbf{change of basis}: the vector stays the same, but the coordinate system changes.
+
+\medskip
+
+\textbf{Key idea.} In one case the pen has physically rotated, and in the other case only your perspective has changed.
+
+\medskip
+
+
+The real distinguishing question is: \textit{is there an external reference frame that matters?} 
+If the table exists in a room with walls and a door, rotating the table changes its 
+relationship to the room. A change of basis does not move the table at all --- it only 
+changes how you are reading the coordinates. If the table were the entire universe with 
+nothing outside it, the two would become indistinguishable.
+
+\medskip
+
+\begin{center}
+\begin{tabular}{l@{\hspace{1cm}}c@{\hspace{1cm}}c}
+\toprule
+& \textbf{Linear Transform} & \textbf{Change of Basis} \\
+\midrule
+The table   & Physically rotates    & Stays still \\
+The vector   & Moves with the table   & Stays still, re-labelled \\
+The pen    & Moves with the table   & Stays still, re-labelled \\
+Your head   & Stays upright       & Tilts $90^\circ$ \\
+The room    & Unchanged --- table moved & Unchanged --- nothing moved \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+For a pure rotation in isolation the two are two sides of the same coin. The difference 
+only becomes meaningful when there are \textit{multiple objects}, or an \textit{external 
+frame of reference}, to relate things to.
+
+% ---------------------------------------------------------
+\section{Composing Transformations}
+% ---------------------------------------------------------
+
+Suppose we apply one transformation $T_1$, and then apply another transformation $T_2$.
+
+\medskip
+
+Geometrically, this means we first deform the hill in one way, and then deform the result again.
+
+\medskip
+
+The combined transformation is written as
+
+\[
+T_2(T_1(\vec{v})).
+\]
+
+\medskip
+
+If $T_1$ is represented by the matrix $M_1$, and $T_2$ is represented by the matrix $M_2$, 
+then the combined transformation is represented by the product
+
+\[
+T_2(T_1(\vec{v})) = M_2 M_1 \vec{v}.
+\]
+
+\medskip
+
+\textbf{A concrete example.}
+
+Let
+
+\[
+M_1 =
+\begin{bmatrix}
+1.4 & 0 \\
+0 & 0.7
+\end{bmatrix}
+\]
+
+represent the stretching and squeezing of the hill from earlier.
+
+\medskip
+
+Now let
+
+\[
+M_2 =
+\begin{bmatrix}
+0 & -1 \\
+1 & 0
+\end{bmatrix}
+\]
+
+represent a $90^\circ$ rotation.
+
+\medskip
+
+Applying $M_1$ first stretches the hill. Applying $M_2$ next rotates the already stretched hill.
+
+\medskip
+
+The combined effect is
+
+\[
+M_2 M_1 =
+\begin{bmatrix}
+0 & -1 \\
+1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+1.4 & 0 \\
+0 & 0.7
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & -0.7 \\
+1.4 & 0
+\end{bmatrix}.
+\]
+
+\medskip
+
+\textbf{Important point.} The order matters. Rotating first and then stretching would produce 
+a different result.
+
+\medskip
+
+Thus, matrix multiplication encodes the composition of transformations.
+
+% ---------------------------------------------------------
+\section{Changing the Basis of a Transformation}
+% ---------------------------------------------------------
+
+We have so far represented transformations using the standard basis 
+$\{\mathbf{e}_1, \mathbf{e}_2\}$. But there is nothing special about this choice. 
+Any basis will do --- and in fact, for many transformations, a carefully chosen basis 
+makes the matrix dramatically simpler to work with. A transformation that looks complicated 
+in one basis may become diagonal, or even the identity, in another.
+
+\medskip
+
+\medskip
+
+\textbf{Why is a diagonal matrix special?}
+
+\medskip
+
+A diagonal matrix has the form
+
+\[
+\begin{bmatrix}
+\lambda_1 & 0 \\
+0 & \lambda_2
+\end{bmatrix}.
+\]
+
+\medskip
+
+This means that each direction is scaled independently:
+
+\begin{itemize}
+  \item A vector along $\mathbf{e}_1$ is simply stretched by $\lambda_1$.
+  \item A vector along $\mathbf{e}_2$ is simply stretched by $\lambda_2$.
+\end{itemize}
+
+\medskip
+
+There is no mixing between directions. Movement in one direction does not produce 
+any component in the other.
+
+\medskip
+
+In contrast, a general matrix such as
+
+\[
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\]
+
+mixes directions: moving along $\mathbf{e}_1$ can produce motion in both the 
+$\mathbf{e}_1$ and $\mathbf{e}_2$ directions after the transformation.
+
+\medskip
+
+\textbf{Geometric meaning.} A diagonal matrix represents a transformation that 
+simply stretches or compresses space along certain preferred directions, without 
+rotating or shearing it.
+
+\medskip
+
+These preferred directions are exactly the eigenvectors of the transformation.
+
+\medskip
+
+\textbf{Key idea.} Diagonalising a matrix means choosing a basis aligned with these 
+natural directions, so that the transformation acts as pure scaling along each axis.
+
+This raises a central question: if we describe the same transformation using a different 
+basis, what does its matrix look like?
+
+\medskip
+
+The answer is the subject of this section. The punchline is:
+
+\[
+\boxed{M' = P^{-1} M P}
+\]
+
+The transformation itself does not change. Only its matrix representation does, 
+depending on which basis you use to describe it.
+
+% ---------------------------------------------------------
+\subsection{Deriving \texorpdfstring{$M' = P^{-1}MP$}{M prime equals P inverse M P}}
+% ---------------------------------------------------------
+
+Let $\{\mathbf{b}_1, \mathbf{b}_2\}$ be a new basis, and let $P$ be the matrix whose 
+columns are these new basis vectors:
+
+\[
+P = \begin{bmatrix} \mathbf{b}_1 & \mathbf{b}_2 \end{bmatrix}.
+\]
+Here, $P$ is not a row matrix. The notation
+
+\[
+P = \begin{bmatrix} \mathbf{b}_1 & \mathbf{b}_2 \end{bmatrix}
+\]
+
+means that the vectors $\mathbf{b}_1$ and $\mathbf{b}_2$ are placed as \textbf{columns} of the matrix.
+
+\medskip
+
+If
+\[
+\mathbf{b}_1 = \begin{bmatrix} b_{11} \\ b_{21} \end{bmatrix}, 
+\qquad
+\mathbf{b}_2 = \begin{bmatrix} b_{12} \\ b_{22} \end{bmatrix},
+\]
+then the matrix $P$ is
+
+\[
+P =
+\begin{bmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22}
+\end{bmatrix}.
+\]
+
+\medskip
+
+So each column of $P$ is one of the basis vectors written in the standard basis.
+
+\medskip
+
+\textbf{Key idea.} The matrix $P$ is formed by stacking the new basis vectors as columns.
+$P$ is called the \textbf{change of basis matrix}. Its role is to convert coordinates 
+written in the new basis into coordinates in the original standard basis. Concretely, 
+if a vector has coordinates $\vec{v}'$ in the new basis, then its coordinates in the 
+standard basis are:
+
+\[
+\vec{v} = P\vec{v}'.
+\]
+
+Now suppose we want to apply the transformation $M$ to a vector $\vec{v}'$ expressed 
+in the new basis, and we want the result expressed in the new basis as well. 
+We cannot simply compute $M\vec{v}'$, because $M$ was built to act on standard-basis 
+coordinates. We must follow three steps:
+
+\begin{enumerate}
+  \item \textbf{Translate into the standard basis.} Convert $\vec{v}'$ into standard 
+  coordinates: $\vec{v} = P\vec{v}'$.
+  \item \textbf{Apply the transformation.} Apply $M$ in the standard basis: 
+  $M\vec{v} = MP\vec{v}'$.
+  \item \textbf{Translate back.} Convert the result back into the new basis by 
+  applying $P^{-1}$: $P^{-1}MP\vec{v}'$.
+\end{enumerate}
+
+\medskip
+
+The composition of these three steps is itself a linear transformation, represented by 
+the matrix:
+
+\[
+M' = P^{-1}MP.
+\]
+
+This is the matrix of the same transformation $M$, but now expressed entirely in the 
+new basis. It tells you: given a vector in new-basis coordinates, where does the 
+transformation send it, expressed back in new-basis coordinates?
+
+% ---------------------------------------------------------
+\subsection{Geometric Interpretation}
+% ---------------------------------------------------------
+
+It helps to think of $M' = P^{-1}MP$ as a round trip through three different 
+coordinate worlds. The diagram below shows this concretely using the hill.
+
+\medskip
+\medskip
+
+\begin{center}
+\begin{tikzpicture}[node distance=2.2cm, auto]
+  \node (A) at (0,0)  [draw, rounded corners, minimum width=3cm, minimum height=1cm, 
+             fill=gray!10] {New basis: $\vec{v}'$};
+  \node (B) at (6,0)  [draw, rounded corners, minimum width=3cm, minimum height=1cm, 
+             fill=gray!10] {Standard basis: $\vec{v}$};
+  \node (C) at (6,-3) [draw, rounded corners, minimum width=3cm, minimum height=1cm, 
+             fill=gray!10] {Standard basis: $M\vec{v}$};
+  \node (D) at (0,-3) [draw, rounded corners, minimum width=3cm, minimum height=1cm, 
+             fill=gray!10] {New basis: $M'\vec{v}'$};
+  \draw[->, thick] (A) -- (B) node[midway, above] {$P$};
+  \draw[->, thick] (B) -- (C) node[midway, right] {$M$};
+  \draw[->, thick] (C) -- (D) node[midway, above] {$P^{-1}$};
+  \draw[->, thick, dashed] (A) -- (D) node[midway, left] {$M' = P^{-1}MP$};
+\end{tikzpicture}
+\end{center}
+
+\medskip
+The diagram below shows this concretely using the hill.
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[scale=0.75]
+
+% ============================================================
+% PANEL 1 (top-left): New basis
+% ============================================================
+\begin{scope}[xshift=0cm, yshift=0cm]
+
+  \node[font=\bfseries] at (-2.5, 7.0) {(1) New basis: $\vec{v}'$};
+
+  \begin{scope}
+    \clip (-7.3,-1.3) rectangle (2.3,5.8);
+    \foreach \k in {-3,-2,-1,0,1,2,3,4,5} {
+      \draw[gray!30, thin]
+        ({-8 + \k*(-0.5)}, {-2 + \k*1.0})
+       -- ({ 4 + \k*(-0.5)}, { 6 + \k*1.0});
+    }
+    \foreach \k in {-4,-3,-2,-1,0,1,2,3} {
+      \draw[gray!30, thin]
+        ({\k*2.0 + (-2)*(-0.5)}, {\k*0.5 + (-2)*1.0})
+       -- ({\k*2.0 +  4*(-0.5)}, {\k*0.5 +  4*1.0});
+    }
+  \end{scope}
+
+  \draw[->, thick] (-7.2,0) -- (2.5,0) node[right] {$x$};
+  \draw[->, thick] (0,-1.2) -- (0,5.8) node[above] {$y$};
+
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw (\x,0.08) -- (\x,-0.08) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.08,\y) -- (-0.08,\y) node[left] {\small $\y$};
+
+  \draw[thick] (-6,0) -- (0,4) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-6,0) -- (-3,2) node[above=3pt] {$\vec{v}'$};
+
+  \fill (-6,0) circle (2pt) node[above left=2pt] {\small $A(-6,0)$};
+  \fill (-3,2) circle (2pt) node[right=3pt] {\small $B(-3,2)$};
+
+  \draw[->, blue!80!black, thick] (0,0) -- (1.0,0.9)
+    node[right=2pt] {\small $\mathbf{b}_1$};
+  \draw[->, blue!80!black, thick] (0,0) -- (-0.5,1.0)
+    node[left=2pt] {\small $\mathbf{b}_2$};
+
+  \node[gray!55!black, font=\small\itshape] at (-2.5,-1.1)
+    {Tilted grid (new basis)};
+
+\end{scope}
+
+% ============================================================
+% Arrow 1->2: P (generous gap between panels)
+% ============================================================
+\draw[->, very thick] (1.5, 2.8) -- (4.5, 2.8);
+\node[font=\Large\bfseries] at (3.0, 3.6) {$P$};
+
+% ============================================================
+% PANEL 2 (top-right): Standard basis
+% xshift=10cm gives a 10cm gap from origin of panel 1
+% Panel 1 runs from x=-7.2 to x=2.5, so rightmost point is at
+% absolute x=2.5. Panel 2 starts at absolute x=10, giving
+% a clean 7.5cm gap which the arrow fills.
+% ============================================================
+\begin{scope}[xshift=12cm, yshift=0cm]
+
+  \node[font=\bfseries] at (-2.5, 7.0) {(2) Standard basis: $\vec{v} = P\vec{v}'$};
+
+  \draw[step=1cm, gray!30, thin] (-7.0,-1.0) grid (2.0,5.0);
+
+  \draw[->, thick] (-7.2,0) -- (2.5,0) node[right] {$x$};
+  \draw[->, thick] (0,-1.2) -- (0,5.8) node[above] {$y$};
+
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw (\x,0.08) -- (\x,-0.08) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.08,\y) -- (-0.08,\y) node[left] {\small $\y$};
+
+  \draw[thick] (-6,0) -- (0,4) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-6,0) -- (-3,2) node[above=3pt] {$\vec{v}$};
+
+  \fill (-6,0) circle (2pt) node[above left=2pt] {\small $A(-6,0)$};
+  \fill (-3,2) circle (2pt) node[right=3pt] {\small $B(-3,2)$};
+
+  \draw[->, blue!80!black, thick] (0,0) -- (1,0)
+    node[below right=2pt] {\small $\mathbf{e}_1$};
+  \draw[->, blue!80!black, thick] (0,0) -- (0,1)
+    node[above left=2pt] {\small $\mathbf{e}_2$};
+
+  \node[gray!55!black, font=\small\itshape] at (-2.5,-1.1)
+    {Standard grid};
+
+\end{scope}
+
+% ============================================================
+% Arrow 2->3: M (right side of panel 2, going down)
+% Panel 2 is at xshift=10, its right edge is at 10+2.5=12.5
+% Arrow sits at x=13.5, safely outside
+% ============================================================
+\draw[->, very thick] (6.0,-1.5) -- (6.0,-4.0);
+\node[font=\Large\bfseries] at (6.4,-2.8) {$M$};
+
+% ============================================================
+% PANEL 3 (bottom-right): Stretched standard basis
+% Sits at same xshift=10 as panel 2, yshift=-10cm
+% ============================================================
+\begin{scope}[xshift=13cm, yshift=-10cm]
+
+  \node[font=\bfseries] at (-2.5, 7.0) {(3) Standard basis: $M\vec{v}$};
+
+  \foreach \x in {-7,-6,-5,-4,-3,-2,-1,0,1,2}
+    \draw[gray!30, thin] ({1.4*\x},-1.0) -- ({1.4*\x},5.0);
+  \foreach \y in {-1,0,1,2,3,4,5}
+    \draw[gray!30, thin] ({1.4*(-7)},{0.7*\y}) -- ({1.4*2},{0.7*\y});
+
+  \draw[->, thick] ({1.4*(-7)-0.3},0) -- ({1.4*2+0.8},0) node[right] {$x'$};
+  \draw[->, thick] (0,-1.2) -- (0,5.8) node[above] {$y'$};
+
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw ({1.4*\x},0.08) -- ({1.4*\x},-0.08) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4}
+    \draw (0.08,{0.7*\y}) -- (-0.08,{0.7*\y}) node[left] {\small $\y$};
+
+  \draw[thick] (-8.4,0) -- (0,2.8) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-8.4,0) -- (-4.2,1.4)
+    node[above=3pt] {$M\vec{v}$};
+
+  \fill (-8.4,0) circle (2pt) node[above=5pt] {\small $T(A)(-8.4,\ 0)$};
+  \fill (-4.2,1.4) circle (2pt) node[below=7pt] {\small $T(B)(-4.2,\ 1.4)$};
+
+  \draw[->, blue!80!black, thick] (0,0) -- (1.4,0)
+    node[below right=2pt] {\small $T(\mathbf{e}_1)$};
+  \draw[->, blue!80!black, thick] (0,0) -- (0,0.7)
+    node[above left=2pt] {\small $T(\mathbf{e}_2)$};
+
+  \node[gray!55!black, font=\small\itshape] at (-2.5,-1.1)
+    {Stretched standard grid};
+
+\end{scope}
+
+% ============================================================
+% Arrow 3->4: P^{-1} (bottom row, going left)
+% Sits at y = -10 + 2.5 = -7.5 (mid-height of bottom panels)
+% ============================================================
+\draw[->, very thick] (4.5,-7.5) -- (1.5,-7.5);
+\node[font=\Large\bfseries] at (3.0,-6.7) {$P^{-1}$};
+
+% ============================================================
+% PANEL 4 (bottom-left): Back to new basis
+% Same xshift=0 as panel 1, yshift=-10cm
+% ============================================================
+\begin{scope}[xshift=0cm, yshift=-10cm]
+
+  \node[font=\bfseries] at (-2.5, 7.0)
+    {(4) New basis: $M'\vec{v}' = P^{-1}MP\,\vec{v}'$};
+
+  \begin{scope}
+    \clip (-7.3,-1.3) rectangle (2.3,5.8);
+    \foreach \k in {-3,-2,-1,0,1,2,3,4,5} {
+      \draw[gray!30, thin]
+        ({-8 + \k*(-0.5)}, {-2 + \k*1.0})
+       -- ({ 4 + \k*(-0.5)}, { 6 + \k*1.0});
+    }
+    \foreach \k in {-4,-3,-2,-1,0,1,2,3} {
+      \draw[gray!30, thin]
+        ({\k*2.0 + (-2)*(-0.5)}, {\k*0.5 + (-2)*1.0})
+       -- ({\k*2.0 +  4*(-0.5)}, {\k*0.5 +  4*1.0});
+    }
+  \end{scope}
+
+  \draw[->, thick] (-7.2,0) -- (2.5,0) node[right] {$x$};
+  \draw[->, thick] (0,-1.2) -- (0,5.8) node[above] {$y$};
+
+  \foreach \x in {-6,-5,-4,-3,-2,-1,1,2}
+    \draw (\x,0.08) -- (\x,-0.08) node[below] {\small $\x$};
+  \foreach \y in {1,2,3,4,5}
+    \draw (0.08,\y) -- (-0.08,\y) node[left] {\small $\y$};
+
+  \draw[thick] (-8.4,0) -- (0,2.8) -- (0,0) -- cycle;
+  \draw[->, red, very thick] (-8.4,0) -- (-4.2,1.4)
+    node[above=3pt] {$M'\vec{v}'$};
+
+  \fill (-8.4,0) circle (2pt) node[above left=2pt] {\small $T(A)$};
+  \fill (-4.2,1.4) circle (2pt) node[right=3pt] {\small $T(B)$};
+
+  \draw[->, blue!80!black, thick] (0,0) -- (2.0,0.5)
+    node[right=2pt] {\small $\mathbf{b}_1$};
+  \draw[->, blue!80!black, thick] (0,0) -- (-0.5,1.0)
+    node[left=2pt] {\small $\mathbf{b}_2$};
+
+  \node[gray!55!black, font=\small\itshape] at (-2.5,-1.1)
+    {Tilted grid (new basis)};
+
+\end{scope}
+
+% ============================================================
+% Dashed shortcut arrow: runs down the left spine
+% Starts above panel 1, ends below panel 4
+% At x=-8.5, well outside the clip region of panels 1 and 4
+% ============================================================
+\draw[->, dashed, very thick, red!70!black]
+  (-8.5, 1.5) -- (-8.5, -6.5);
+\node[red!70!black, font=\bfseries, rotate=90] at (-9.5, -1.5)
+  {$M' = P^{-1}MP$};
+
+\end{tikzpicture}%
+}
+\caption{The round trip of $M' = P^{-1}MP$. Starting from $\vec{v}'$ in the new basis
+\textbf{(1)}, we convert to standard coordinates via $P$ \textbf{(2)}, apply $M$
+\textbf{(3)}, then convert back via $P^{-1}$ \textbf{(4)}. The dashed arrow is the
+direct path: $M'$ performs all three steps in a single matrix.}
+\label{fig:change_of_basis_roundtrip}
+\end{figure}
+
+\medskip
+
+The dashed arrow is what $M'$ does directly. The three solid arrows show the long way 
+around: translate into the standard basis, apply the transformation, translate back. 
+Both paths start and end in the new basis, and both give exactly the same result.
+
+
+\medskip
+
+Geometrically, think of it this way. Suppose your new basis vectors $\mathbf{b}_1$ 
+and $\mathbf{b}_2$ define a tilted, rescaled grid --- like the stretched grid from 
+our earlier example. A vector described in this grid has coordinates that mean 
+something different from the same numbers in the standard grid.
+
+\medskip
+
+$P$ is the act of \textit{stepping out} of the tilted grid and into the standard room, 
+so that $M$ can act on it in the language it understands. $P^{-1}$ is the act of 
+\textit{stepping back} into the tilted grid to read off the result. The transformation 
+$M'$ is what an observer who lives entirely inside the tilted grid would write down 
+to describe exactly the same physical transformation.
+
+% ---------------------------------------------------------
+
+\subsection{Connection to the Hill}
+% ---------------------------------------------------------
+
+Return to the hill example. The standard basis $\{\mathbf{e}_1, \mathbf{e}_2\}$ 
+describes vectors using the original upright grid. Now suppose we introduce a new 
+basis aligned with the hill itself --- for example, one basis vector running along 
+the base of the hill and another pointing up the slope.
+
+\medskip
+
+To see why this might be useful, imagine a steady wind blowing across the hill, 
+flowing exactly along the slope.
+
+\medskip
+
+If we describe this wind using the standard horizontal and vertical directions, 
+its motion appears split between the two --- part of it looks horizontal, and part 
+of it looks vertical. The description feels unnecessarily complicated.
+
+\medskip
+
+However, if we choose a basis aligned with the hill --- one direction along the slope 
+and one perpendicular to it --- the situation becomes much simpler. The wind now points 
+entirely along a single direction in this new basis, with no mixing between components.
+
+\medskip
+
+This is the advantage of choosing a good basis: it aligns our description with the 
+natural directions of the problem.
+
+\medskip
+
+In this new basis, $P$ converts hill-aligned coordinates into standard coordinates. 
+$M$ applies the stretch-and-squeeze transformation in the standard grid. $P^{-1}$ 
+reads the result back in hill-aligned coordinates.
+
+\medskip
+
+The hill has not moved. The transformation has not changed. But the matrix $M'$ 
+describes how the transformation looks to someone who measures everything along the 
+slope of the hill rather than along the horizontal and vertical axes.
+
+\medskip
+
+\textbf{Key idea.} A good choice of basis reveals the underlying simplicity of a 
+transformation by aligning with its natural directions.
+
+\medskip
+
+This is the deeper meaning of $M' = P^{-1}MP$: \textit{same transformation, different 
+language}. The physics is invariant; only the coordinate description changes.
+
+% ---------------------------------------------------------
+\subsection{Why This Matters}
+% ---------------------------------------------------------
+
+The formula $M' = P^{-1}MP$ means we are free to 
+choose whatever basis makes a problem easiest.
+
+\medskip
+
+
+For many transformations, there exists a special basis --- the basis of 
+\textbf{eigenvectors} --- in which $M'$ becomes a diagonal matrix:
+
+\[
+M' = \begin{bmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{bmatrix}.
+\]
+
+In this basis, the transformation simply scales each basis vector independently by 
+$\lambda_1$ and $\lambda_2$, with no mixing between directions. Computations that 
+would require repeated matrix multiplications in the standard basis reduce to 
+trivial scalar arithmetic in the eigenbasis. This is the idea behind 
+\textbf{diagonalisation}, which we develop now.
+
+% ---------------------------------------------------------
+\chapter{Eigenvectors and Natural Directions}
+
+\section{Eigenvectors and Eigenvalues}
+% ---------------------------------------------------------
+
+We have seen that a linear transformation $T$ moves vectors around in space. Most 
+vectors get rotated, stretched, and mixed together --- their direction changes after 
+the transformation. But some special vectors are different.
+
+\medskip
+
+A non-zero vector $\vec{v}$ is called an \textbf{eigenvector} of a transformation 
+$T$ if applying $T$ does not change its direction --- it only scales it:
+
+\[
+T(\vec{v}) = \lambda \vec{v}.
+\]
+
+The scalar $\lambda$ is called the \textbf{eigenvalue} associated with $\vec{v}$. 
+It tells you by how much the vector is stretched ($\lambda > 1$), compressed 
+($0 < \lambda < 1$), reversed ($\lambda < 0$), or left unchanged ($\lambda = 1$).
+
+\medskip
+
+\textbf{Geometrically.} An eigenvector is a non-zero vector that lies along a line through the origin 
+which the transformation maps back onto the same line. The transformation may stretch 
+or flip the vector along that line, but it never rotates it off it.
+
+\medskip
+
+In terms of the matrix $M$ representing $T$, the eigenvector condition becomes:
+
+\[
+M\vec{v} = \lambda\vec{v}.
+\]
+
+Rearranging:
+
+\[
+M\vec{v} - \lambda\vec{v} = \vec{0}
+\implies
+(M - \lambda I)\vec{v} = \vec{0}.
+\]
+We introduce $I$ so that $\lambda$ can act on the entire vector $\vec{v}$ as a matrix, allowing us to combine both terms into a single matrix expression.
+
+\medskip
+
+For a non-zero solution $\vec{v}$ to exist, the matrix $(M - \lambda I)$ must be 
+singular --- that is, it must have zero determinant:
+
+\[
+\det(M - \lambda I) = 0.
+\]
+
+% ---------------------------------------------------------
+\section{The Determinant}
+% ---------------------------------------------------------
+
+We have arrived at the condition
+
+\[
+\det(M - \lambda I) = 0.
+\]
+
+\subsection{An Intuitive Picture: Unit Cells and Scaling}
+
+The determinant is one of those rare mathematical concepts where the geometric intuition is often more illuminating than the algebraic formula.
+
+\medskip
+
+At its core, the determinant tells you the \textbf{volume scaling factor} of a linear transformation. 
+If we take a region of space with volume $1$ and apply a transformation with matrix $A$, 
+the volume of the resulting region is exactly
+
+\[
+\text{Volume} = |\det(A)|.
+\]
+
+\medskip
+
+\subsection{The Change in ``Unit Cells''}
+
+One way to visualize this is to think of space as being built from tiny unit blocks 
+(a square in 2D, a cube in 3D).
+
+\medskip
+
+When we apply a transformation:
+
+\begin{itemize}
+  \item The matrix moves the edges of this unit block.
+  \item The block becomes a parallelogram (in 2D) or a parallelepiped (in 3D).
+  \item The determinant measures the area or volume of this new shape.
+\end{itemize}
+
+\medskip
+
+For example:
+
+\begin{itemize}
+  \item If $\det(A) = 2$, the transformation doubles all volumes.
+  \item If $\det(A) = 0$, the transformation squashes space into a lower dimension, 
+  collapsing volume to zero.
+\end{itemize}
+
+\medskip
+
+\subsection{Connection to Eigenvalues}
+
+This picture connects directly to eigenvalues.
+
+\medskip
+
+For many matrices, the determinant can be written as the product of the eigenvalues:
+
+\[
+\det(A) = \lambda_1 \lambda_2 \cdots \lambda_n.
+\]
+
+\medskip
+
+Each eigenvalue $\lambda_i$ represents the scaling factor along a particular direction 
+(the corresponding eigenvector).
+
+\medskip
+
+For example, if one direction is stretched by a factor of $3$ and another by a factor of $2$, 
+then the total area scales by
+
+\[
+3 \times 2 = 6.
+\]
+
+\medskip
+
+The determinant combines these directional scalings into a single number that describes 
+the overall change in volume.
+
+\medskip
+
+\subsection{Stretching, Compressing, and Flipping}
+
+Because the determinant is a product of these directional scaling factors:
+
+\begin{itemize}
+  \item If $|\det(A)| > 1$, the transformation expands space.
+  \item If $0 < |\det(A)| < 1$, it compresses space.
+  \item If $\det(A) < 0$, the transformation also reverses orientation (it includes a reflection).
+\end{itemize}
+
+\medskip
+
+\subsection{Why the Determinant Determines Invertibility}
+
+This also explains why the determinant tells us whether a transformation is invertible.
+
+\medskip
+
+If $\det(A) = 0$, then at least one eigenvalue is zero. This means that some direction 
+has been completely collapsed.
+
+\medskip
+
+Geometrically, space has been flattened — for example, a three-dimensional object may be 
+reduced to a plane.
+
+\medskip
+
+Once this information is lost, it cannot be recovered. This is why such a transformation 
+has no inverse.
+
+\subsection{Why Does the Determinant Have to Be Zero?}
+
+We arrived at the equation
+
+\[
+(M - \lambda I)\vec{v} = \vec{0}.
+\]
+
+We are looking for a \textbf{non-zero} vector $\vec{v}$ that satisfies this equation.
+
+\medskip
+
+Now, think about what this equation means. It says that the matrix $(M - \lambda I)$ 
+takes the vector $\vec{v}$ and sends it to the zero vector.
+
+\medskip
+
+There are two possibilities:
+
+\begin{itemize}
+  \item The only solution is $\vec{v} = \vec{0}$.
+  \item There exists a non-zero vector $\vec{v} \neq \vec{0}$ such that $(M - \lambda I)\vec{v} = \vec{0}$.
+\end{itemize}
+
+\medskip
+
+We are interested in the second case, since eigenvectors must be non-zero.
+
+\medskip
+
+\subsection{Invertibility and Solutions}
+
+If the matrix $(M - \lambda I)$ is \textbf{invertible}, then we can multiply both sides of the equation by its inverse:
+
+\[
+(M - \lambda I)^{-1}(M - \lambda I)\vec{v} = (M - \lambda I)^{-1}\vec{0}.
+\]
+
+This simplifies to
+
+\[
+\vec{v} = \vec{0}.
+\]
+
+\medskip
+
+This shows that if $(M - \lambda I)$ is invertible, the only solution is the trivial one. 
+So no non-zero eigenvector can exist in this case.
+
+\medskip
+
+\subsection{The Key Conclusion}
+
+For a non-zero solution $\vec{v}$ to exist, the matrix $(M - \lambda I)$ must \textbf{not} be invertible.
+
+\medskip
+
+From our earlier discussion, a matrix is not invertible exactly when its determinant is zero. Therefore,
+
+\[
+\det(M - \lambda I) = 0.
+\]
+
+\medskip
+
+\subsection{Geometric Interpretation}
+
+Geometrically, this means that the transformation $(M - \lambda I)$ collapses space in at least one direction.
+
+\medskip
+
+In other words, there exists a direction $\vec{v}$ that gets mapped to zero. 
+This direction is precisely the eigenvector corresponding to the eigenvalue $\lambda$.
+
+% ---------------------------------------------------------
+\section{A Worked Example}
+% ---------------------------------------------------------
+
+Return to our transformation matrix:
+
+\[
+M = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix}.
+\]
+
+The characteristic equation is:
+
+\[
+\det(M - \lambda I) 
+= \det\begin{bmatrix} 1.4 - \lambda & 0 \\ 0 & 0.7 - \lambda \end{bmatrix}
+= (1.4 - \lambda)(0.7 - \lambda) = 0.
+\]
+
+The eigenvalues are therefore $\lambda_1 = 1.4$ and $\lambda_2 = 0.7$.
+
+\medskip
+
+For $\lambda_1 = 1.4$:
+
+\[
+(M - 1.4I)\vec{v} = 
+\begin{bmatrix} 0 & 0 \\ 0 & -0.7 \end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \vec{0}
+\implies v_2 = 0.
+\]
+
+The eigenvector is any scalar multiple of $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ 
+--- the horizontal axis. This makes geometric sense: the transformation stretches 
+horizontally, so any purely horizontal vector stays horizontal.
+
+\medskip
+
+For $\lambda_2 = 0.7$:
+
+\[
+(M - 0.7I)\vec{v} = 
+\begin{bmatrix} 0.7 & 0 \\ 0 & 0 \end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \vec{0}
+\implies v_1 = 0.
+\]
+
+The eigenvector is any scalar multiple of $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$ 
+--- the vertical axis. Again this is geometrically clear: the transformation 
+compresses vertically, so any purely vertical vector stays vertical.
+
+\medskip
+
+For a diagonal matrix like this one, the eigenvectors are always the standard basis 
+vectors and the eigenvalues are always the diagonal entries. The interesting case 
+arises when $M$ is not diagonal --- we must solve the characteristic equation to 
+find directions that the transformation preserves.
+
+% ---------------------------------------------------------
+\section{The Eigenbasis}
+% ---------------------------------------------------------
+
+If a matrix $M$ has $n$ linearly independent eigenvectors, we can collect them into 
+a basis for the whole space. This is called the \textbf{eigenbasis}.
+
+\medskip
+
+Let the eigenvectors be $\vec{v}_1, \vec{v}_2, \ldots, \vec{v}_n$ with corresponding 
+eigenvalues $\lambda_1, \lambda_2, \ldots, \lambda_n$. Form the matrix $P$ whose 
+columns are these eigenvectors:
+
+\[
+P = \begin{bmatrix} \vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_n \end{bmatrix}.
+\]
+
+In this basis, the transformation has a special form. Since $M\vec{v}_i = \lambda_i 
+\vec{v}_i$ for each $i$, we have:
+
+\[
+MP = \begin{bmatrix} M\vec{v}_1 & M\vec{v}_2 & \cdots & M\vec{v}_n \end{bmatrix}
+  = \begin{bmatrix} \lambda_1\vec{v}_1 & \lambda_2\vec{v}_2 & \cdots & \lambda_n\vec{v}_n \end{bmatrix}
+  = P \begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}.
+\]
+
+\medskip
+
+This is the key algebraic fact: in the eigenbasis, there is no mixing between 
+directions. Each basis vector is simply scaled by its own eigenvalue, independently 
+of all the others. The transformation has been completely disentangled.
+
+\medskip
+
+\textbf{Geometrically.} Think back to the hill. In the standard basis, our 
+stretch-and-squeeze transformation acts on $x$ and $y$ coordinates simultaneously. 
+If we worked with a rotated or tilted basis whose vectors were not aligned with the 
+transformation's natural axes, the matrix would have off-diagonal entries --- 
+the $x$ and $y$ components would mix. Moving to the eigenbasis is like rotating 
+your coordinate system to align with those natural axes, so the mixing disappears 
+and each direction behaves independently.
+
+% ---------------------------------------------------------
+\section{Diagonalisation}
+% ---------------------------------------------------------
+
+We now have all the ingredients. From the section on change of basis, we know that 
+if $P$ converts from a new basis to the standard basis, then the matrix of the same 
+transformation in the new basis is:
+
+\[
+M' = P^{-1}MP.
+\]
+
+From the eigenbasis discussion, we know that if $P$ is the matrix of eigenvectors, 
+then $MP = P\Lambda$ where $\Lambda$ is the diagonal matrix of eigenvalues. 
+Multiplying both sides on the left by $P^{-1}$:
+
+\[
+P^{-1}MP = P^{-1}P\Lambda = \Lambda.
+\]
+
+This gives us the \textbf{diagonalisation theorem}: if $M$ has $n$ linearly 
+independent eigenvectors, then:
+
+\[
+\boxed{P^{-1}MP = \Lambda = 
+\begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}}
+\]
+
+where $P$ is the matrix of eigenvectors placed as columns, and $\Lambda$ is the 
+diagonal matrix of the corresponding eigenvalues.
+
+\medskip
+
+Equivalently, we can write this as:
+
+\[
+M = P \Lambda P^{-1}.
+\]
+
+This is the \textbf{eigendecomposition} of $M$. It says that any diagonalisable 
+matrix can be factored into three interpretable pieces:
+
+\begin{itemize}
+  \item $P^{-1}$ --- change coordinates into the eigenbasis.
+  \item $\Lambda$ --- apply the transformation (pure scaling, no mixing).
+  \item $P$ --- change coordinates back to the standard basis.
+\end{itemize}
+
+This is precisely the round trip $M' = P^{-1}MP$ from before, except now we have 
+chosen $P$ optimally --- so that the middle step is as simple as possible.
+
+% ---------------------------------------------------------
+\section{Why Diagonalisation Matters}
+% ---------------------------------------------------------
+
+\textbf{Matrix powers:} Suppose we want to compute $M^k$ --- applying the 
+transformation $k$ times. In the standard basis this requires $k$ matrix 
+multiplications. Using the eigendecomposition:
+
+\[
+M^k = (P\Lambda P^{-1})^k = P \Lambda^k P^{-1},
+\]
+
+because the intermediate $P^{-1}P = I$ terms cancel. And $\Lambda^k$ is trivial 
+--- you simply raise each diagonal entry to the power $k$:
+
+\[
+\Lambda^k = \begin{bmatrix} \lambda_1^k & & \\ & \ddots & \\ & & \lambda_n^k \end{bmatrix}.
+\]
+
+This reduces an exponentially expensive computation to a single set of scalar 
+exponentiations.
+
+\medskip
+
+\textbf{Geometric interpretation.} In the eigenbasis, repeated application of $M$ 
+simply scales each eigendirection independently. Directions with $|\lambda| > 1$ 
+expand, directions with $|\lambda| < 1$ contract, and directions with $\lambda = 1$ 
+are fixed. The long-run behaviour of the transformation is completely determined by 
+which eigenvalue is largest in magnitude --- this is the \textbf{dominant eigenvalue}.
+
+\medskip
+
+\textbf{Connection to the hill.}
+
+\medskip
+
+Think of the transformation as repeatedly reshaping the hill. Each time we apply $M$, 
+the hill is stretched in some directions and compressed in others.
+
+\medskip
+
+If we describe this process using the standard horizontal and vertical directions, 
+each step mixes the directions. After several applications, it becomes difficult to 
+predict how the hill will evolve.
+
+\medskip
+
+However, in the eigenbasis, each direction behaves independently. One direction 
+is scaled by a factor $\lambda_1$, and another by $\lambda_2$.
+
+\medskip
+
+Applying the transformation $k$ times simply multiplies these effects:
+
+\begin{itemize}
+  \item the first direction is scaled by $\lambda_1^k$,
+  \item the second direction is scaled by $\lambda_2^k$.
+\end{itemize}
+
+\medskip
+
+So instead of tracking a complicated sequence of deformations, we can understand 
+the long-term behaviour of the hill by following how it scales along these special directions.
+
+\medskip
+
+\textbf{Key idea.} In the right basis, repeated transformations reduce to independent scaling along each direction.
+
+\medskip
+
+In our example,
+\[
+M = \begin{bmatrix} 1.4 & 0 \\ 0 & 0.7 \end{bmatrix}
+\]
+is already diagonal, so it is already expressed in its eigenbasis. The eigenvectors 
+are $\mathbf{e}_1$ and $\mathbf{e}_2$, and the eigenvalues $1.4$ and $0.7$ tell us 
+exactly how the hill changes with each application: it stretches horizontally and 
+compresses vertically.
+
+\medskip
+
+After $k$ applications,
+\[
+M^k = \begin{bmatrix} 1.4^k & 0 \\ 0 & 0.7^k \end{bmatrix}.
+\]
+
+\medskip
+
+As $k \to \infty$, the horizontal direction grows without bound while the vertical 
+direction shrinks to zero. Geometrically, the hill becomes increasingly flattened, 
+approaching a horizontal line.
+
+\medskip
+
+This long-term behaviour is immediately visible from the eigenvalues, and would be 
+far harder to extract from repeated matrix multiplication in a non-diagonal form.
+
+% ---------------------------------------------------------
+\section{When Diagonalisation Fails}
+% ---------------------------------------------------------
+
+Not every matrix is diagonalisable. Diagonalisation requires $n$ linearly 
+independent eigenvectors. This can fail in two ways:
+
+\begin{itemize}
+  \item \textbf{Repeated eigenvalues with too few eigenvectors.} A matrix may 
+  have a repeated eigenvalue but not enough independent eigenvectors to span the 
+  space. Such matrices are called \textbf{defective}.
+  \item \textbf{Complex eigenvalues.} A real matrix may have complex eigenvalues 
+  (occurring in conjugate pairs). In this case the matrix is not diagonalisable 
+  over $\mathbb{R}$, but it is diagonalisable over $\mathbb{C}$, and can be 
+  reduced to a real \textbf{block diagonal} form involving $2\times 2$ rotation-scaling 
+  blocks.
+\end{itemize}
+
+\medskip
+
+% ---------------------------------------------------------
+% ---------------------------------------------------------
+\part{Measurement and Geometry}
+\vspace*{0.35\textheight}
+
+\begin{quote}
+\centering
+``I must be growing small again.''
+
+\medskip
+
+--- Lewis Carroll, \textit{Alice's Adventures in Wonderland}
+\end{quote}
+
+
+
+Alice's journey is full of changes in size. She grows, shrinks, reaches for doors, 
+measures herself against tables, and slowly discovers that size only makes sense when 
+there is something to compare it with.
+
+\medskip
+
+This part of the book begins with the same idea. After studying motion and coordinates, 
+we now ask how geometry is measured. What does it mean for a vector to have length? 
+What does it mean for two directions to be perpendicular? How can one mathematical object 
+measure another?
+
+\medskip
+
+To answer these questions, we introduce covectors, dual spaces, and inner products. These 
+ideas allow us to turn motion into numbers, compare directions, measure lengths and 
+angles, and understand how geometry becomes something more than a picture.
+
+\medskip
+
+This is the next step down the rabbit hole: from describing motion to measuring the 
+geometry beneath it.
+
+\chapter{Covectors and Dual Spaces}
+
+\section{What Is a Covector?}
+% ---------------------------------------------------------
+
+Throughout this chapter, we have worked with vectors --- objects that represent 
+directions and displacements in space. We now introduce a complementary object.
+
+\medskip
+
+Before we do that, we should clarify something important. So far, we have been thinking 
+of a vector as an arrow with a direction and a magnitude. This is a useful geometric picture, 
+but it is not the most general definition.
+
+\medskip
+
+In mathematics, a vector is simply an element of a \textit{vector space}. It does not have 
+to be an arrow. For example, vectors can also be:
+\begin{itemize}
+  \item polynomials,
+  \item functions,
+  \item sequences of numbers.
+\end{itemize}
+
+\medskip
+
+What makes these objects ``vectors'' is not their shape, but the fact that they can be 
+added together and scaled in a consistent way.
+
+\medskip
+
+The arrow picture is just one way of visualising vectors --- one that is especially useful 
+for building geometric intuition, as we have done with the hill.
+
+\medskip
+
+\medskip
+
+It is important to note that a covector is itself a kind of vector --- just not in the 
+same space as the vectors we have been working with.
+
+\medskip
+
+While vectors represent directions and displacements, covectors belong to a different 
+vector space: the space of all linear functions that act on vectors. This space is 
+called the \textbf{dual space}.
+
+\medskip
+
+So even though a covector is not an arrow and does not represent a direction, it still 
+behaves like a vector in the sense that we can add covectors together and scale them 
+by numbers.
+
+\medskip
+
+\textbf{Key idea.} If a vector tells you how to move, a covector tells you something about that movement in the form of a number.
+
+\medskip
+
+To make this precise, we represent a covector as a function that takes a vector as input 
+and returns a number:
+
+\[
+f: \mathbb{R}^n \to \mathbb{R}, \qquad \vec{v} \mapsto f(\vec{v}) \in \mathbb{R}.
+\]
+
+\medskip
+
+Since a covector measures vectors in a consistent way, this function must be linear. 
+That is, for any vectors $\vec{u}, \vec{v}$ and scalar $c$:
+
+\[
+f(\vec{u} + \vec{v}) = f(\vec{u}) + f(\vec{v}), \qquad 
+f(c\vec{v}) = c\,f(\vec{v}).
+\]
+
+A covector does not point anywhere. It does not have a direction in the way a vector 
+does. Instead, it \textit{measures} vectors --- it takes a vector and extracts a 
+number from it.
+
+% ---------------------------------------------------------
+\section{A Concrete Example}
+% ---------------------------------------------------------
+
+Return to the hill. At every point on the hill, we can assign a height using a function 
+$h(x, y)$. This function tells us the elevation at each position.
+
+\medskip
+
+Now suppose you stand at a point on the hill and choose a direction in which to walk. 
+You might ask:
+
+\begin{quote}
+How steep is the hill in this direction?
+\end{quote}
+
+\medskip
+
+This is exactly the kind of question a covector answers.
+
+\medskip
+
+The \textbf{gradient} of $h$,
+
+\[
+dh = \begin{bmatrix} \dfrac{\partial h}{\partial x} & \dfrac{\partial h}{\partial y} \end{bmatrix},
+\]
+
+is a covector. It takes a direction vector $\vec{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}$ 
+and returns a number:
+
+\[
+dh(\vec{v}) = \frac{\partial h}{\partial x}\,v_1 + \frac{\partial h}{\partial y}\,v_2 \in \mathbb{R}.
+\]
+
+\medskip
+
+This number tells you how quickly the height changes if you move in the direction $\vec{v}$.
+
+\medskip
+
+\textbf{Key observation.} The vector $\vec{v}$ tells you \textit{which direction} you are moving 
+on the hill. The covector $dh$ tells you \textit{how steeply} you are climbing in that direction.
+
+\medskip
+
+One describes motion; the other assigns a number to that motion.
+
+\medskip
+
+\section{Covectors in Coordinates}
+
+In coordinates, a covector in $\mathbb{R}^n$ is represented as a \textbf{row vector}:
+
+\[
+f = \begin{bmatrix} f_1 & f_2 & \cdots & f_n \end{bmatrix},
+\]
+
+while an ordinary vector is represented as a \textbf{column vector}:
+
+\[
+\vec{v} =
+\begin{bmatrix}
+v_1 \\
+v_2 \\
+\vdots \\
+v_n
+\end{bmatrix}.
+\]
+
+\medskip
+
+The action of $f$ on $\vec{v}$ is then simply matrix multiplication:
+
+\[
+f(\vec{v}) =
+\begin{bmatrix} f_1 & f_2 & \cdots & f_n \end{bmatrix}
+\begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix}
+= f_1 v_1 + f_2 v_2 + \cdots + f_n v_n.
+\]
+
+\medskip
+
+So a covector takes the components of a vector and combines them into a single number.
+
+% ---------------------------------------------------------
+\section{Vectors vs.\ Covectors}
+% ---------------------------------------------------------
+
+We can now state the fundamental distinction precisely:
+
+\medskip
+
+\begin{center}
+\begin{tabular}{l@{\hspace{1.5cm}}l@{\hspace{1.5cm}}l}
+\toprule
+& \textbf{Vector} & \textbf{Covector} \\
+\midrule
+What it is   & Direction or displacement  & Linear function on vectors \\
+Representation & Column vector        & Row vector \\
+What it does  & Describes motion       & Assigns a number to motion \\
+Output     & A vector           & A real number \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+\textbf{Key idea.} Vectors tell us how to move. Covectors tell us something about that movement by assigning a number to it.
+% ---------------------------------------------------------
+\section{How Covectors Transform}
+% ---------------------------------------------------------
+
+This is where the distinction becomes essential. When we change basis, vectors 
+and covectors do \textit{not} transform in the same way --- and there is a precise 
+reason why.
+
+\medskip
+
+\textbf{Key principle.} The number produced by a covector acting on a vector must 
+not depend on how we describe the vector. It is a physical or geometric quantity, 
+and so it must remain the same in every basis.
+
+\medskip
+
+Suppose we change basis using the matrix $P$. A vector $\vec{v}$ expressed in the 
+new basis has components related to the old ones by:
+
+\[
+\vec{v}_{\,\text{new}} = P^{-1}\vec{v}_{\,\text{old}}.
+\]
+
+\medskip
+
+Now consider the number $f(\vec{v})$. This is a real quantity --- for example, the 
+rate of change of height on the hill in a given direction --- and it must be the same 
+no matter which basis we use.
+
+\medskip
+
+This requirement forces the covector to transform in the opposite way.
+
+\medskip
+
+In the old basis:
+\[
+f(\vec{v}) = f_{\,\text{old}}\,\vec{v}_{\,\text{old}}.
+\]
+
+In the new basis, substituting $\vec{v}_{\,\text{old}} = P\,\vec{v}_{\,\text{new}}$:
+\[
+f(\vec{v}) = f_{\,\text{old}}\,P\,\vec{v}_{\,\text{new}}.
+\]
+
+\medskip
+
+For this to have the same form in the new basis, we must define:
+\[
+f_{\,\text{new}} = f_{\,\text{old}}\,P.
+\]
+
+Rearranging:
+\[
+f_{\,\text{old}} = f_{\,\text{new}}\,P^{-1}.
+\]
+So that:
+\[
+f(\vec{v}) = f_{\,\text{new}}\,\vec{v}_{\,\text{new}}. \quad \checkmark
+\]
+
+
+
+
+\medskip
+
+\textbf{Key idea.} Since the vector components change, the covector must adjust in 
+exactly the opposite way so that the final number remains unchanged.
+
+\medskip
+
+The transformation rules are therefore:
+
+\medskip
+
+\begin{center}
+\begin{tabular}{l@{\hspace{2cm}}c}
+\toprule
+& \textbf{Transformation rule} \\
+\midrule
+Vector components  & multiply by $P^{-1}$ \\
+Covector components & multiply by $P$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+
+Because they transform by inverse matrices relative to one another, vectors and 
+covectors are said to transform \textbf{contravariantly} and \textbf{covariantly} 
+respectively. This is the origin of the prefix \textit{co} in covector.
+
+% ---------------------------------------------------------
+\section{Index Notation}
+% ---------------------------------------------------------
+
+In more advanced mathematics and physics, the distinction between vectors and 
+covectors is built directly into the notation.
+
+\medskip
+
+Vector components are written with \textbf{upper indices}:
+\[
+\vec{v} = (v^1, v^2, \ldots, v^n),
+\]
+
+while covector components are written with \textbf{lower indices}:
+\[
+f = (f_1, f_2, \ldots, f_n).
+\]
+
+\medskip
+
+This difference is not just stylistic --- it reflects how these objects transform 
+when we change basis.
+
+\medskip
+
+The action of a covector on a vector is written as:
+\[
+f(\vec{v}) = f_i\, v^i.
+\]
+
+\medskip
+
+This expression represents a sum over the index $i$:
+\[
+f_i\, v^i = f_1 v^1 + f_2 v^2 + \cdots + f_n v^n.
+\]
+
+\medskip
+
+This is the \textbf{Einstein summation convention}: whenever an index appears 
+once upstairs and once downstairs, it is automatically summed over.
+
+\medskip
+
+\textbf{Key idea.} The placement of indices is not cosmetic --- it encodes how 
+each object transforms, and ensures that expressions like $f_i v^i$ produce a 
+scalar that is independent of the choice of basis.
+
+% ---------------------------------------------------------
+\section{Why This Matters}
+% ---------------------------------------------------------
+
+The distinction between vectors and covectors is not merely technical --- it is 
+essential.
+
+\medskip
+
+In physics, quantities such as velocities, displacements, and forces are vectors, 
+while gradients and certain forms of momentum are covectors. Treating these as 
+interchangeable can lead to expressions that depend on the coordinate system, and 
+therefore do not represent physical reality.
+
+\medskip
+
+More fundamentally, covectors are the natural objects that act on vectors to 
+produce scalars. This pairing,
+\[
+f_i v^i,
+\]
+gives a number that is independent of the choice of basis.
+
+\medskip
+
+At this point, a natural question arises:
+
+\begin{quote}
+Can we produce such a number using only vectors, without explicitly introducing a covector?
+\end{quote}
+
+\medskip
+
+In other words, given two vectors, is there a natural way to assign a number that 
+captures how they relate to one another?
+
+\medskip
+
+The answer is yes. This leads us to the concept of an \textbf{inner product}, which 
+provides a way to measure lengths, angles, and alignment between vectors.
+
+\medskip
+
+In the next section, we introduce the inner product and explore how it allows 
+vectors themselves to generate scalars, and how it connects vectors and covectors 
+in a deeper way.
+
+\chapter{The Inner Product}
+% ---------------------------------------------------------
+
+In the previous section, we saw that a covector acting on a vector produces a number:
+\[
+f_i v^i.
+\]
+
+This naturally leads to the question: can we assign a number to a pair of vectors 
+directly, without introducing a separate covector?
+
+\medskip
+
+The answer is yes. This is done using an \textbf{inner product}.
+
+\medskip
+
+An inner product is a rule that takes two vectors and returns a real number:
+\[
+\langle \vec{u}, \vec{v} \rangle \in \mathbb{R}.
+\]
+
+\medskip
+
+It satisfies the following properties for all vectors $\vec{u}, \vec{v}, \vec{w}$ 
+and scalar $c$:
+\begin{itemize}
+  \item Linearity in each argument:
+  \[
+  \langle \vec{u} + \vec{w}, \vec{v} \rangle = \langle \vec{u}, \vec{v} \rangle + \langle \vec{w}, \vec{v} \rangle,
+  \qquad
+  \langle c\vec{u}, \vec{v} \rangle = c\,\langle \vec{u}, \vec{v} \rangle,
+  \]
+  \item Symmetry:
+  \[
+  \langle \vec{u}, \vec{v} \rangle = \langle \vec{v}, \vec{u} \rangle,
+  \]
+  \item Positivity:
+  \[
+  \langle \vec{v}, \vec{v} \rangle \geq 0,
+  \quad \text{with equality only if } \vec{v} = \vec{0}.
+  \]
+\end{itemize}
+
+\medskip
+
+\textbf{Geometric meaning.} The inner product measures how two vectors relate to 
+each other. It captures both their lengths and how aligned they are.
+
+\medskip
+
+In $\mathbb{R}^2$, the standard inner product is:
+\[
+\langle \vec{u}, \vec{v} \rangle = u^1 v^1 + u^2 v^2.
+\]
+
+\medskip
+
+\section{Connection to the Hill}
+
+Return to the hill. Suppose you choose a direction $\vec{v}$ in which to walk, and 
+another direction $\vec{u}$.
+
+\medskip
+
+The inner product $\langle \vec{u}, \vec{v} \rangle$ tells you how much these two 
+directions align with each other.
+
+\begin{itemize}
+  \item If the value is large and positive, the directions are closely aligned.
+  \item If it is zero, the directions are perpendicular.
+  \item If it is negative, the directions point in opposite directions.
+\end{itemize}
+
+\medskip
+
+So while a vector tells you how to move, the inner product tells you how two 
+movements compare.
+
+\medskip
+
+\section{From Vectors to Covectors}
+
+An important consequence of the inner product is that it allows us to associate a 
+covector to every vector.
+
+\medskip
+
+Given a vector $\vec{u}$, we can define a function:
+\[
+f_{\vec{u}}(\vec{v}) = \langle \vec{u}, \vec{v} \rangle.
+\]
+
+\medskip
+
+This function takes a vector $\vec{v}$ and returns a number, and it is linear in 
+$\vec{v}$. Therefore, it is a covector.
+
+\medskip
+
+\textbf{Key idea.} The inner product provides a bridge between vectors and 
+covectors: it allows us to turn vectors into objects that measure other vectors.
+
+\end{document}
