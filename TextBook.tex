@@ -107,8 +107,8 @@
     colframe=yellow!40!black
 }
 
-\title{\Huge Down The Rabbit Hole of Physics\\[0.5em]
-\Large A Curious Journey into the Mathematics of Relativity}
+\title{\Huge Mathematics for the Physically Inclined\\[0.5em]
+\Large A Curious Journey into the Mathematics of Advanced Physics}
 \author{Nishant Mathew}
 \date{April 2026}
 
@@ -139,50 +139,45 @@
 \chapter*{Preface}
 \addcontentsline{toc}{chapter}{Preface}
 
-Mathematics and physics are often taught as collections of formulas, procedures, and 
-abstract definitions to be memorised. Students learn to manipulate symbols long before 
-they are shown what those symbols mean geometrically or physically. As a result, ideas 
-that are often simple at their core can begin to feel mysterious.
+Mathematics and physics are often introduced as collections of formulas, procedures, 
+and abstract definitions to be memorised. Students learn to manipulate symbols long 
+before they are shown what those symbols mean geometrically or physically. As a result, 
+ideas that are often simple at their core can begin to feel mysterious, disconnected, 
+or purely mechanical.
 
 \medskip
 
-This book approaches these ideas differently.
+This book approaches these subjects differently.
 
-\medskip
-
-Like Alice following the rabbit down the rabbit hole, the reader is invited to begin with 
-something familiar and simple, only to discover that it leads into a much deeper world. 
-A vector is not merely an arrow or a list of numbers. Coordinates are not reality itself. 
-A matrix is not just an array of entries. Beneath these familiar objects lies a geometric 
-language for describing motion, space, measurement, and eventually spacetime.
 
 \medskip
 
 The goal of this text is not merely to teach linear algebra, tensors, or relativity as 
-computational subjects, but to build an intuitive geometric understanding of the structures 
-behind them. We will return often to simple pictures --- walking on a hill, changing 
-coordinate systems, stretching space, measuring directions --- and use them to uncover 
-the mathematics beneath.
+computational subjects, but to develop an intuitive understanding of the structures that 
+underlie them. Throughout the book we will repeatedly return to simple geometric ideas 
+--- walking on a hill, changing coordinate systems, stretching space, comparing directions 
+--- and use them to uncover the mathematics beneath.
 
 \medskip
 
-The philosophy of this book is that mathematics should arise naturally from geometry. 
-Rather than beginning with formal definitions and adding interpretation later, we will 
-often begin with intuition and then formalise it carefully.
+The philosophy of this book is that mathematics should arise naturally from geometry and 
+physical intuition. Rather than beginning with formal definitions and postponing meaning 
+until later, we will often proceed in the opposite direction: beginning with geometric 
+ideas first, and then carefully building the formal mathematics needed to describe them.
 
 \medskip
 
-A recurring theme is the distinction between an object and its description. A vector is 
-not its coordinates. A transformation is not the matrix used to represent it. A geometric 
-or physical statement should not depend on the coordinate system chosen to describe it. 
-This idea leads naturally toward vectors, covectors, tensors, metrics, and eventually 
-spacetime itself.
+A recurring theme throughout the text is the distinction between an object and its 
+description. A vector is not its coordinates. A transformation is not the matrix used 
+to represent it. A geometric or physical statement should not depend on the coordinate 
+system chosen to describe it. This idea leads naturally toward vectors, covectors, 
+metrics, tensors, and eventually the geometry of spacetime itself.
 
 \medskip
 
-This text grew out of personal study in linear algebra, geometry, and relativity, and 
+Like Alice following the rabbit down the rabbit hole, the reader is invited to begin with something familiar and simple, only to discover that it leads into a much deeper world.
 from a desire to understand these subjects conceptually rather than purely computationally. 
-Many of the explanations arose from asking a simple question:
+Many of the explanations in these pages arose from repeatedly asking a simple question:
 
 \begin{quote}
 What do these mathematical objects actually \textit{mean} geometrically?
@@ -192,11 +187,9 @@ What do these mathematical objects actually \textit{mean} geometrically?
 
 
 
-\medskip
-
-This book is an invitation to follow that rabbit hole slowly --- curious, patient, and 
-willing to let familiar ideas become strange before they become clear.
-
+This book is therefore an invitation to move slowly, think geometrically, and follow the 
+rabbit hole patiently --- allowing familiar ideas to become strange, and then gradually 
+become clear again.
 \tableofcontents
 
 \mainmatter
@@ -422,6 +415,23 @@ We now want to make this idea precise.
 
 To do this, we introduce the notion of a \textbf{vector space}. 
 A vector space is a collection of objects, called vectors, together with two operations:
+
+\medskip
+
+Despite the name, a vector space is not necessarily a physical space like the room 
+around you or the hill we have been walking on. It is an abstract mathematical structure 
+--- a conceptual ``space'' whose elements are called vectors.
+
+\medskip
+
+These vectors need not be arrows or displacements. They could be functions, polynomials, 
+matrices, waves, or many other mathematical objects. What matters is not what the objects 
+physically are, but that they obey certain rules for combining and scaling them.
+
+\medskip
+
+A vector space therefore consists of a collection of objects, called vectors, together 
+with two operations:
 
 \begin{enumerate}
   \item vector addition, which combines two vectors to form another vector, and
@@ -781,17 +791,20 @@ Thus, in the rotated basis, the vector is
 This shows that the same vector can have different numerical descriptions depending on the basis used. 
 The components are not intrinsic to the vector; they arise from our choice of basis.
 
-\chapter{Linear Transformations}
-
-\section{What Is \texorpdfstring{$\mathbb{R}^n$}{R to the n}?}
-
-Before defining a linear transformation, we need to clarify the space we are working in.
-
-\medskip
-
-So far, we have been working on the hill, which lives in a two-dimensional world. 
-To describe a point on the hill, we used two numbers: one for horizontal position 
-and one for vertical height. This is what we call $\mathbb{R}^2$.
+    \chapter{Linear Transformations}
+    
+    \section{What Is \texorpdfstring{$\mathbb{R}^n$}{R to the n}?}
+    
+    Before defining a linear transformation, we need to clarify the space we are working in.
+    
+    \medskip
+    
+    So far, we have been working on the hill, which lives in a two-dimensional world. 
+    To describe a point on the hill, we used two numbers: one for horizontal position 
+    and one for vertical height. This is what we call $\mathbb{R}^2$.\footnote{The symbol 
+$\mathbb{R}$ stands for the set of \textit{real numbers}, which includes positive 
+numbers, negative numbers, fractions, irrational numbers such as $\sqrt{2}$ and $\pi$, 
+and zero.}.
 
 \medskip
 
@@ -808,7 +821,7 @@ numbers. Each number tells you how far you move in one independent direction.
 
 \medskip
 
-Even though we cannot easily picture higher dimensions, the idea is the same: 
+Even though we cannot picture higher dimensions, the idea is the same: 
 a vector in $\mathbb{R}^n$ is simply a direction and displacement described using $n$ independent measurements.
 
 \medskip
@@ -1526,7 +1539,7 @@ So each column of $P$ is one of the basis vectors written in the standard basis.
 \textbf{Key idea.} The matrix $P$ is formed by stacking the new basis vectors as columns.
 $P$ is called the \textbf{change of basis matrix}. Its role is to convert coordinates 
 written in the new basis into coordinates in the original standard basis. Concretely, 
-if a vector has coordinates $\vec{v}'$ in the new basis, then its coordinates in the 
+if a vector has coordinates $v'$ in the new basis, then its coordinates in the 
 standard basis are:
 
 \[
@@ -2007,6 +2020,103 @@ For example:
   collapsing volume to zero.
 \end{itemize}
 
+\begin{figure}[htbp]
+\centering
+
+% ---------------------------------------------------------
+% 2D Diagram
+% ---------------------------------------------------------
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[scale=1]
+
+% Original square
+\draw[thick, blue] (0,0) rectangle (2,2);
+
+% Transformed parallelogram
+\draw[thick, red]
+(4,0) -- (6,0.5) -- (7,2.5) -- (5,2) -- cycle;
+
+% Labels
+\node[blue] at (1,-0.5) {Unit square};
+\node[red] at (5.5,-0.5) {Transformed parallelogram};
+
+% Arrows
+\draw[->, thick] (2.5,1) -- (3.5,1)
+node[midway, above] {$A$};
+
+\end{tikzpicture}
+
+\caption*{In $\mathbb{R}^2$, the determinant measures how the area of the unit square changes under the transformation.}
+\end{minipage}
+\hfill
+% ---------------------------------------------------------
+% 3D Diagram
+% ---------------------------------------------------------
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[scale=0.9]
+
+% Original cube
+\draw[thick, blue]
+(0,0) -- (2,0) -- (2,2) -- (0,2) -- cycle;
+
+\draw[thick, blue]
+(0.7,0.7) -- (2.7,0.7) -- (2.7,2.7) -- (0.7,2.7) -- cycle;
+
+\draw[thick, blue]
+(0,0) -- (0.7,0.7);
+
+\draw[thick, blue]
+(2,0) -- (2.7,0.7);
+
+\draw[thick, blue]
+(2,2) -- (2.7,2.7);
+
+\draw[thick, blue]
+(0,2) -- (0.7,2.7);
+
+% Transformed parallelepiped
+\begin{scope}[xshift=5cm]
+
+\draw[thick, red]
+(0,0) -- (2.2,0.5) -- (2.7,2.2) -- (0.5,1.7) -- cycle;
+
+\draw[thick, red]
+(0.8,0.8) -- (3,1.3) -- (3.5,3) -- (1.3,2.5) -- cycle;
+
+\draw[thick, red]
+(0,0) -- (0.8,0.8);
+
+\draw[thick, red]
+(2.2,0.5) -- (3,1.3);
+
+\draw[thick, red]
+(2.7,2.2) -- (3.5,3);
+
+\draw[thick, red]
+(0.5,1.7) -- (1.3,2.5);
+
+\end{scope}
+
+% Labels
+\node[blue] at (1,-0.7) {Unit cube};
+\node[red] at (7,-0.7) {Transformed parallelepiped};
+
+% Arrow
+\draw[->, thick] (3.2,1.2) -- (4.2,1.2)
+node[midway, above] {$A$};
+
+\end{tikzpicture}
+
+\caption*{In $\mathbb{R}^3$, the determinant measures how the volume of the unit cube changes under the transformation.}
+\end{minipage}
+
+\caption{A linear transformation reshapes unit cells of space. The determinant measures the scaling of area and volume.}
+\label{fig:determinant_geometry}
+
+\end{figure}
+
 \medskip
 
 \subsection{Connection to Eigenvalues}
@@ -2051,6 +2161,94 @@ Because the determinant is a product of these directional scaling factors:
   \item If $0 < |\det(A)| < 1$, it compresses space.
   \item If $\det(A) < 0$, the transformation also reverses orientation (it includes a reflection).
 \end{itemize}
+
+\medskip
+
+The negative sign does \textit{not} mean that area or volume itself becomes physically 
+negative. Area and volume are still positive quantities. Instead, the sign keeps track 
+of the \textbf{orientation} of the transformed space.
+
+\medskip
+
+To understand this, imagine placing two basis vectors $\mathbf{e}_1$ and $\mathbf{e}_2$ 
+tail-to-tail. Moving from $\mathbf{e}_1$ to $\mathbf{e}_2$ in the counterclockwise direction 
+defines one orientation of the plane. A transformation with positive determinant preserves 
+this orientation. A transformation with negative determinant flips it, changing a 
+counterclockwise orientation into a clockwise one.
+
+\medskip
+
+In higher dimensions, this idea generalises to the ``handedness'' of space. For example, 
+a right-handed coordinate system may become left-handed after a transformation with 
+negative determinant.
+
+\medskip
+
+So the determinant contains two pieces of information simultaneously:
+
+\begin{itemize}
+  \item its magnitude tells us how much area or volume scales,
+  \item its sign tells us whether orientation is preserved or reversed.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+
+% ---------------------------------------------------------
+% Positive determinant
+% ---------------------------------------------------------
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[scale=1.1]
+
+% Axes
+\draw[->] (-0.5,0) -- (3,0) node[right] {$x$};
+\draw[->] (0,-0.5) -- (0,3) node[above] {$y$};
+
+% Basis vectors
+\draw[->, thick, blue] (0,0) -- (2,0) node[below] {$\mathbf{e}_1$};
+\draw[->, thick, red] (0,0) -- (0,2) node[left] {$\mathbf{e}_2$};
+
+% Orientation arrow
+\draw[->, thick] (1,0.3) arc[start angle=0,end angle=90,radius=0.8];
+
+\node at (1,-1) {$\det(A) > 0$};
+\node at (1,-1.5) {Orientation preserved};
+
+\end{tikzpicture}
+\end{minipage}
+\hfill
+% ---------------------------------------------------------
+% Negative determinant
+% ---------------------------------------------------------
+\begin{minipage}{0.45\textwidth}
+\centering
+\begin{tikzpicture}[scale=1.1]
+
+% Axes
+\draw[->] (-0.5,0) -- (3,0) node[right] {$x$};
+\draw[->] (0,-2.5) -- (0,1) node[above] {$y$};
+
+% Basis vectors
+\draw[->, thick, blue] (0,0) -- (2,0) node[below] {$A\mathbf{e}_1$};
+\draw[->, thick, red] (0,0) -- (0,-2) node[left] {$A\mathbf{e}_2$};
+
+% Orientation arrow
+\draw[->, thick] (0.3,-1) arc[start angle=90,end angle=0,radius=0.8];
+
+\node at (1,-3) {$\det(A) < 0$};
+\node at (1,-3.5) {Orientation reversed};
+
+\end{tikzpicture}
+\end{minipage}
+
+\caption{
+A positive determinant preserves orientation, while a negative determinant reverses it. 
+In the second figure, the transformation flips the plane, changing the handedness of the basis.
+}
+\label{fig:orientation_flip}
+
+\end{figure}
 
 \medskip
 
@@ -2403,8 +2601,98 @@ independent eigenvectors. This can fail in two ways:
 
 \begin{itemize}
   \item \textbf{Repeated eigenvalues with too few eigenvectors.} A matrix may 
-  have a repeated eigenvalue but not enough independent eigenvectors to span the 
-  space. Such matrices are called \textbf{defective}.
+have a repeated eigenvalue but not enough independent eigenvectors to span the 
+space. Such matrices are called \textbf{defective}.
+
+\medskip
+
+For example, consider the matrix
+
+\[
+A =
+\begin{bmatrix}
+1 & 1 \\
+0 & 1
+\end{bmatrix}.
+\]
+
+Its characteristic equation is
+
+\[
+\det(A - \lambda I)
+=
+\begin{vmatrix}
+1-\lambda & 1 \\
+0 & 1-\lambda
+\end{vmatrix}
+=
+(1-\lambda)^2.
+\]
+
+So the matrix has a repeated eigenvalue:
+\[
+\lambda = 1.
+\]
+
+\medskip
+
+To find the eigenvectors, we solve
+
+\[
+(A-I)\vec{v} = \vec{0}.
+\]
+
+But
+
+\[
+A-I =
+\begin{bmatrix}
+0 & 1 \\
+0 & 0
+\end{bmatrix},
+\]
+
+which gives
+
+\[
+\begin{bmatrix}
+0 & 1 \\
+0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}.
+\]
+
+This implies
+\[
+y = 0,
+\]
+while $x$ is free.
+
+\medskip
+
+So every eigenvector has the form
+
+\[
+\vec{v} =
+\begin{bmatrix}
+x \\
+0
+\end{bmatrix},
+\]
+
+meaning there is only \textbf{one independent eigendirection}, even though the matrix acts on a two-dimensional space.
+
+\medskip
+
+Because we cannot find two linearly independent eigenvectors, the matrix cannot be diagonalised.
   \item \textbf{Complex eigenvalues.} A real matrix may have complex eigenvalues 
   (occurring in conjugate pairs). In this case the matrix is not diagonalisable 
   over $\mathbb{R}$, but it is diagonalisable over $\mathbb{C}$, and can be 
